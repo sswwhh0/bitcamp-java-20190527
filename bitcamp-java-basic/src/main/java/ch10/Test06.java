@@ -7,11 +7,31 @@ class Monitor4 {
   int widthRes; // 해상도 너비
   int heightRes; // 해상도 높이
   
-  Monitor4() { // 생성자 <== 파라미터를 받지 않는 생성자를 기본 생성자(default constructor)라 부른다.
+  {
+    System.out.println("인스턴스 초기화 블록 실행!");
+    bright = 20;
+    contrast = 20;
+    widthRes = 800;
+    heightRes = 600;
+  }
+  
+  //호출될 생성자는 new 명령에서 지정한다.
+  //예) new 클래스명(호출할 생성자의 전달할 파라미터 값)
+  //-> 다음과 같이 파라미터의 값을 주지 않으면 파라미터 값을 안 받는 생성자가 호출된다.
+  //   예) Monitor4()
+  //-> 파라미터 값을 안 받는 생성자를 기본생성자(default constructor)라 부른다.
+  //-> new 명령을 실행하여 인스턴스를 생성할 때는 반드시 호출될 생성자를 지정해야 한다.
+  //   예) new 클래스명();
+  //-> 다음과 같이 생성자를 지정하지 않으면 컴파일 오류가 발생한다.
+  //   예) new 클래스명;
+  Monitor4() {
     this.bright = 50;
     this.contrast = 50;
     this.widthRes = 1920;
     this.heightRes = 1080;
+    //인스턴스 초기화 블록이 있는데 왜 생성자가 필요한가?
+    //-> 생성자는 외부에서 초기화시킬 값을 받을 수 없다.
+    //   다만 어쩌구저쩌구
   }
   
   void display() {
@@ -26,7 +46,19 @@ class Monitor4 {
 public class Test06 {
   public static void main(String[] args) {
     // 모니터 인스턴스 생성
+    // 1) Monitor4 설계도에 따라 인스턴스 필드를 Heap에 생성한다.
+    // 2) 필드의 초기화 문장을 실행한다.
+    //    예) int bright = 10;
+    // 3) 인스턴스 초기화 블록을 실행한다.
+    //    예) 10~16번째 줄
+    // 4) 파라미터를 안 받는 생성자(default constructor)를 호출한다.
+    //    예) Monitor4() {...}
     Monitor4 m1 = new Monitor4();
+    
+    //주의!
+    //-> 다음과 같이 호출할 생성자를 지정하지 않는다면 컴파일 오류가 발생한다.
+    //-> 반드시 존재하는 생성자를 지정해야 한다,
+    //Monitor m2 = new Monitor4; <- 오류
     
     // 인스턴스 필드의 값이 생성자를 통해 유효한 기본 값들로 
     // 미리 초기화 되었기 때문에 바로 사용할 수 있다.

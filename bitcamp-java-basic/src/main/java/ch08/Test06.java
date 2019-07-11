@@ -8,7 +8,7 @@ public class Test06 {
   public static void main(String[] args) {
     Scanner keyboard = new Scanner(System.in);
     
-    System.out.print("계산식?(예: 12 * 2) ");
+    System.out.println("계산식?(예: 12 * 2) ");
     int a = keyboard.nextInt();
     String op = keyboard.next();
     int b = keyboard.nextInt();

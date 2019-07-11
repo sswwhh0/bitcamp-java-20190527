@@ -46,13 +46,7 @@ public class Test14 {
         0x61, 0x62, 0x63};
     
     String s7 = new String(bytes3, "utf-8");
-    
-    System.out.println(s2);
-    System.out.println(s3);
-    System.out.println(s4);
-    System.out.println(s5);
-    System.out.println(s6);
-    System.out.println(s7);
+    System.out.printf("s7 = %s", s7);
   }
 }
 
