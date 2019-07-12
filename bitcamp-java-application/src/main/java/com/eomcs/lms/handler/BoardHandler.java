@@ -4,9 +4,7 @@ import com.eomcs.lms.domain.Board;
 import com.eomcs.lms.util.Input;
 
 public class BoardHandler {
-  private Board[] boards = new Board[100];
-  private int boardSize = 0;
-  
+  private BoardList boardList = new BoardList();
   private Input input;
   
   //BoardHandler가 사용하는 Input객체를 반드시 설정하도록 강제해보자!
@@ -25,14 +23,14 @@ public class BoardHandler {
     board.setContents(input.getStringValue("내용 입력 : "));
     board.setWriteDay(input.getDateValue("작성일 입력 : "));
   
-    boards[boardSize++] = board;
+    boardList.add(board);
     System.out.println("저장하였습니다.");
   }
   public void listBoard() {
-    for(int i=0; i<boardSize; i++) {
-//      Board board = boards[i];
-      System.out.printf("%s, %s, %s, %s\n", boards[i].getNum(), boards[i].getTitle(), 
-          boards[i].getContents(), boards[i].getWriteDay());
+    Board[] boards = boardList.toArray();
+    for (Board board : boards) {
+      System.out.printf("%s, %s, %s, %s\n", board.getNum(), board.getTitle(), 
+          board.getContents(), board.getWriteDay());
     }
   }
 }

@@ -4,9 +4,8 @@ import com.eomcs.lms.domain.Lesson;
 import com.eomcs.lms.util.Input;
 
 public class LessonHandler {
-  private Lesson[] lessons = new Lesson[100];
-  private int lessonSize = 0;
   
+  private LessonList lessonList = new LessonList();
   private Input input;
   
   public LessonHandler(Input input) {
@@ -24,14 +23,15 @@ public class LessonHandler {
     lesson.setEndDate(input.getDateValue("종료일 입력 : "));
     lesson.setTotalHours(input.getIntValue("총 수업시간 입력 : "));
     lesson.setDayHours(input.getIntValue("일 수업시간 입력 : "));
+    
     //수업데이터를 저장하고 있는 인스턴스의 주소를 레퍼런스 배열에 저장한다
-    lessons[lessonSize++] = lesson;
+    //LessonList에게 전달한다
+    lessonList.add(lesson);
     System.out.println("저장하였습니다.");
   }
   public void listLesson() {
-    for (int i=0; i<lessonSize; i++) {
-      //레퍼런스 배열에서 한 개의 인스턴스 주소를 꺼낸다
-      Lesson lesson = lessons[i];
+    Lesson[] lessons = lessonList.toArray();
+    for (Lesson lesson : lessons) {
       //인스턴스 주소로 찾아가서 인스턴스의 각 변수 값을 꺼내 출력한다.
       System.out.printf("%s, %s, %s, %s ~ %s, %s, %s\n",lesson.getNo(), lesson.getTitle(), 
           lesson.getContents(), lesson.getStartDate(), 
