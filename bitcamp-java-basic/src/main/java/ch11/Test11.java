@@ -41,6 +41,11 @@ public class Test11 {
       System.out.println("obj3 == obj4");
     else 
       System.out.println("obj3 != obj4");
+    
+    Integer obj5 = 100;
+    Integer obj6 = 100;
+    System.out.println(obj3 == obj5);
+    System.out.println(obj5 == obj6);
   }
 }
 

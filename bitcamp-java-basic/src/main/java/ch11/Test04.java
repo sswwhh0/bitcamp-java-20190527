@@ -4,6 +4,7 @@ package ch11;
 public class Test04 {
   public static void main(String[] args) {
     
+    //주소 다름
     String s1 = new String("Hello");
     String s2 = new String("Hello"); 
     

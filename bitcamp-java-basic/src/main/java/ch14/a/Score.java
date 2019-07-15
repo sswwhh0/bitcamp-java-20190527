@@ -16,7 +16,7 @@ public class Score {
     return this.aver;
   }
   
-  public void compute() {
+  protected void compute() {
     this.sum = this.kor + this.eng + this.math;
     this.aver = this.sum / 3f;
   }
