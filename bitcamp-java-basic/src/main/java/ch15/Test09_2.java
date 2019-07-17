@@ -3,28 +3,54 @@ package ch15;
 
 import java.util.HashMap;
 
-class Key {
-  String contents;
+public class Test09_2 {
   
-  public Key(String contents) {
-    this.contents = contents;
-  }
-
-  @Override
-  public String toString() {
-    return "Key [contents=" + contents + "]";
-  }
-}
-
-public class Test10 {
-  public static void main(String[] args) {
-    HashMap map = new HashMap();
+  static class MyKey2 {
+    String contents;
     
-    Key k1 = new Key("ok");
-    Key k2 = new Key("no");
-    Key k3 = new Key("haha");
-    Key k4 = new Key("ohora");
-    Key k5 = new Key("hul");
+    public MyKey2(String contents) {
+      this.contents = contents;
+    }
+
+    @Override
+    public String toString() {
+      return "MyKey2 [contents=" + contents + "]";
+    }
+
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((contents == null) ? 0 : contents.hashCode());
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      MyKey2 other = (MyKey2) obj;
+      if (contents == null) {
+        if (other.contents != null)
+          return false;
+      } else if (!contents.equals(other.contents))
+        return false;
+      return true;
+    }
+    
+  }
+  public static void main(String[] args) {
+    HashMap<MyKey2, Student> map = new HashMap<>();
+    
+    MyKey2 k1 = new MyKey2("ok");
+    MyKey2 k2 = new MyKey2("no");
+    MyKey2 k3 = new MyKey2("haha");
+    MyKey2 k4 = new MyKey2("ohora");
+    MyKey2 k5 = new MyKey2("hul");
     
     // String을 key로 사용해보자! 
     map.put(k1, new Student("홍길동", 20, false));
@@ -36,7 +62,7 @@ public class Test10 {
     System.out.println(map.get(k3));
     
     // key를 사용하여 값을 꺼내보자.
-    Key k6 = new Key("haha");
+    MyKey2 k6 = new MyKey2("haha");
 
     System.out.println(k3 == k6); // 인스턴스는 다르다.  
     System.out.println(k3.hashCode()); // hash code는 다르다. 
@@ -48,9 +74,6 @@ public class Test10 {
     // HashMap 클래스에서는 서로 다른 key라고 간주한다.
     
     System.out.println(map.get(k6));
-    
-    Key k7 = new Key("Haha"); 
-    System.out.println(map.get(k7));
   }
 
 }
