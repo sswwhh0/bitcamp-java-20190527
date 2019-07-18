@@ -10,19 +10,6 @@ class My5 {
   boolean working;
   
   @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + age;
-    result = prime * result + ((email == null) ? 0 : email.hashCode());
-    result = prime * result + gender;
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
-    result = prime * result + ((tel == null) ? 0 : tel.hashCode());
-    result = prime * result + (working ? 1231 : 1237);
-    return result;
-  }
-  
-  @Override
   public boolean equals(Object obj) {
     if (this == obj)
       return true;
@@ -55,6 +42,7 @@ class My5 {
     return true;
   }
   
+
 }
 
 public class Test05 {
@@ -70,10 +58,10 @@ public class Test05 {
     My5 obj2 = new My5();
     obj2.name = "홍길동";
     obj2.age = 20;
-    obj1.tel = "1111-1111";
-    obj1.email = "hong@test.com";
-    obj1.gender = 1;
-    obj1.working = false;
+    obj2.tel = "1111-1111";
+    obj2.email = "hong@test.com";
+    obj2.gender = 1;
+    obj2.working = false;
     
     System.out.println(obj1 == obj2);
     System.out.println(obj1.equals(obj2));

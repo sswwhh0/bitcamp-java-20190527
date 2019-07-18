@@ -3,17 +3,19 @@ package com.eomcs.lms.domain;
 import java.sql.Date;
 
 public class Member {
-  
-  private int num;
+  private int no;
   private String name;
-  private String phoneNum;
-  private Date joinDay;
+  private String email;
+  private String password;
+  private String tel;
+  private String photo;
+  private Date registeredDate;
   
-  public int getNum() {
-    return num;
+  public int getNo() {
+    return no;
   }
-  public void setNum(int num) {
-    this.num = num;
+  public void setNo(int no) {
+    this.no = no;
   }
   public String getName() {
     return name;
@@ -21,17 +23,35 @@ public class Member {
   public void setName(String name) {
     this.name = name;
   }
-  public String getPhoneNum() {
-    return phoneNum;
+  public String getEmail() {
+    return email;
   }
-  public void setPhoneNum(String phoneNum) {
-    this.phoneNum = phoneNum;
+  public void setEmail(String email) {
+    this.email = email;
   }
-  public Date getJoinDay() {
-    return joinDay;
+  public String getPassword() {
+    return password;
   }
-  public void setJoinDay(Date joinDay) {
-    this.joinDay = joinDay;
+  public void setPassword(String password) {
+    this.password = password;
+  }
+  public String getTel() {
+    return tel;
+  }
+  public void setTel(String tel) {
+    this.tel = tel;
+  }
+  public String getPhoto() {
+    return photo;
+  }
+  public void setPhoto(String photo) {
+    this.photo = photo;
+  }
+  public Date getRegisteredDate() {
+    return registeredDate;
+  }
+  public void setRegisteredDate(Date registeredDate) {
+    this.registeredDate = registeredDate;
   }
   
 }

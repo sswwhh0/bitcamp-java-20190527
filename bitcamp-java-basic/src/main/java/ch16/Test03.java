@@ -14,12 +14,6 @@ public class Test03 {
     File obj4 = echo(new File("okok"));
     Integer obj5 = echo(Integer.valueOf(100));
     
-    System.out.println(obj1);
-    System.out.println(obj2);
-    System.out.println(obj3);
-    System.out.println(obj4);
-    System.out.println(obj5);
-    
   }
   
   // 제네릭을 이용하면 여러 타입을 모두 수용할 수 있는 메서드를 만들 수 있다.

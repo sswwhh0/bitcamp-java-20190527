@@ -3,10 +3,8 @@ package com.eomcs.lms.domain;
 import java.sql.Date;
 
 public class Board {
-  
-  public int num;
-  public String title;
+  public int no;
   public String contents;
-  public Date writeDay;
-
+  public Date createdDate;
+  public int viewCount;
 }

@@ -1,110 +1,104 @@
 package com.eomcs.lms.handler;
 
+import java.sql.Date;
 import com.eomcs.lms.domain.Board;
-import com.eomcs.lms.util.ArrayList;
-import com.eomcs.lms.util.Input;
+import com.eomcs.util.ArrayList;
+import com.eomcs.util.Input;
 
 public class BoardHandler {
   private ArrayList<Board> boardList = new ArrayList<>();
   private Input input;
   
-  //BoardHandler가 사용하는 Input객체를 반드시 설정하도록 강제해보자!
-  //-> Input객체처럼 어떤 작업을 실행하기 위해 반드시 있어야 하는 객체를
-  //   "의존 객체(dependency)"라 부른다.
-  //-> 의존 객체를 강제로 설정하게 만드는 방법?
-  //   다음과 같이 의존 객체를 넘겨 받는 생성자를 정의하는 것이다.
   public BoardHandler(Input input) {
     this.input = input;
   }
   
-  public void addBoard() {
-    Board board = new Board();
-    board.setNum(input.getIntValue("번호 입력 : "));
-    board.setTitle(input.getStringValue("제목 입력 : "));
-    board.setContents(input.getStringValue("내용 입력 : "));
-    board.setWriteDay(input.getDateValue("작성일 입력 : "));
-  
-    boardList.add(board);
-    System.out.println("저장하였습니다.");
-  }
   public void listBoard() {
-    Board[] boards = new Board[boardList.size()];
-    boardList.toArray(boards);
+    //Board[] boards = new Board[boardList.size()];
+    //boardList.toArray(boards);
+    
+    Board[] boards = boardList.toArray(new Board[] {});
     for (Board board : boards) {
-      System.out.printf("%s, %s, %s, %s\n", board.getNum(), board.getTitle(), 
-          board.getContents(), board.getWriteDay());
+      System.out.printf("%s, %s, %s, %s\n", 
+          board.getNo(), board.getContents(), 
+          board.getCreatedDate(), board.getViewCount());
     }
   }
 
-  public void detailBoard() {
-    int num = input.getIntValue("번호? ");
+  public void addBoard() {
+    Board board = new Board();
     
-    //사용자가 입력한 번호를 가지고 목록에서 그 번호에 해당하는
-    //Lesson 객체를 찾는다
-    Board board = null;
+    board.setNo(input.getIntValue("번호? "));
+    board.setContents(input.getStringValue("내용? "));
+    board.setCreatedDate(new Date(System.currentTimeMillis())); 
     
-    for(int i=0; i<boardList.size(); i++) {
-      Board temp = boardList.get(i);
-      if(temp.getNum() == num) {
-        board = temp;
-        break;
-      }
-    }
-    
-    if(board == null) {
-      System.out.println("해당 번호의 데이터가 없습니다!");
-      return;
-    }
-    
-    System.out.printf("제목 : %s\n", board.getTitle());
-    System.out.printf("내용 : %s\n", board.getContents());
-    System.out.printf("작성일 : %s\n", board.getWriteDay());
+    boardList.add(board);
+    System.out.println("저장하였습니다.");
   }
-  public void updateBoard() {
-    int num = input.getIntValue("번호? ");
+  
+  public void detailBoard() {
+    int no = input.getIntValue("번호? ");
     
-    //사용자가 입력한 번호를 가지고 목록에서 그 번호에 해당하는
-    //Lesson 객체를 찾는다
+    // 사용자가 입력한 번호를 가지고 목록에서 그 번호에 해당하는 Board 객체를 찾는다.
     Board board = null;
-    
-    for(int i=0; i<boardList.size(); i++) {
+    for (int i = 0; i < boardList.size(); i++) {
       Board temp = boardList.get(i);
-      if(temp.getNum() == num) {
+      if (temp.getNo() == no) {
         board = temp;
         break;
       }
     }
     
-    if(board == null) {
+    if (board == null) {
       System.out.println("해당 번호의 데이터가 없습니다!");
       return;
     }
     
-    String str = input.getStringValue("제목("+board.getTitle()+")? ");
-    if(str.length()>0) {
-      board.setTitle(str);
+    System.out.printf("내용: %s\n", board.getContents());
+    System.out.printf("작성일: %s\n", board.getCreatedDate());
+  }
+
+  public void updateBoard() {
+    int no = input.getIntValue("번호? ");
+    
+    // 사용자가 입력한 번호를 가지고 목록에서 그 번호에 해당하는 Board 객체를 찾는다.
+    Board board = null;
+    for (int i = 0; i < boardList.size(); i++) {
+      Board temp = boardList.get(i);
+      if (temp.getNo() == no) {
+        board = temp;
+        break;
+      }
     }
     
-    str = input.getStringValue("내용("+board.getContents()+")? ");
-    if(str.length()>0) {
+    if (board == null) {
+      System.out.println("해당 번호의 데이터가 없습니다!");
+      return;
+    }
+    
+    // 사용자로부터 변경할 값을 입력 받는다.
+    String str = input.getStringValue("내용? ");
+    if (str.length() > 0) {
       board.setContents(str);
     }
     
-    board.setWriteDay(input.getDateValue("작성일("+board.getWriteDay()+")? "));
-    
-    System.out.println("변경 되었습니다!");
+    System.out.println("데이터를 변경하였습니다.");
   }
+
   public void deleteBoard() {
-    int num = input.getIntValue("번호? ");
+    int no = input.getIntValue("번호? ");
     
-    for(int i=0; i<boardList.size(); i++) {
+    // 사용자가 입력한 번호를 가지고 목록에서 그 번호에 해당하는 Board 객체를 찾는다.
+    for (int i = 0; i < boardList.size(); i++) {
       Board temp = boardList.get(i);
-      if(temp.getNum() == num) {
+      if (temp.getNo() == no) {
         boardList.remove(i);
-        System.out.println("삭제 되었습니다!");
+        System.out.println("데이터를 삭제하였습니다.");
         return;
       }
     }
+    
     System.out.println("해당 번호의 데이터가 없습니다!");
+    
   }
 }

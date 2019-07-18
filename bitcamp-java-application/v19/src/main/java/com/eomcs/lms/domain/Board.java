@@ -3,27 +3,16 @@ package com.eomcs.lms.domain;
 import java.sql.Date;
 
 public class Board {
-  
   private int no;
-  private int num;
-  private String title;
   private String contents;
-  private Date writeDay;
+  private Date createdDate;
+  private int viewCount;
   
   public int getNo() {
     return no;
   }
-  public int getNum() {
-    return num;
-  }
-  public void setNum(int num) {
-    this.num = num;
-  }
-  public String getTitle() {
-    return title;
-  }
-  public void setTitle(String title) {
-    this.title = title;
+  public void setNo(int no) {
+    this.no = no;
   }
   public String getContents() {
     return contents;
@@ -31,11 +20,17 @@ public class Board {
   public void setContents(String contents) {
     this.contents = contents;
   }
-  public Date getWriteDay() {
-    return writeDay;
+  public Date getCreatedDate() {
+    return createdDate;
   }
-  public void setWriteDay(Date writeDay) {
-    this.writeDay = writeDay;
+  public void setCreatedDate(Date createdDate) {
+    this.createdDate = createdDate;
   }
-
+  public int getViewCount() {
+    return viewCount;
+  }
+  public void setViewCount(int viewCount) {
+    this.viewCount = viewCount;
+  }
+  
 }

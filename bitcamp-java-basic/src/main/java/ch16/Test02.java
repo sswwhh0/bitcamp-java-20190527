@@ -11,11 +11,8 @@ public class Test02 {
     // 해결책? 각 타입에 대해 echo()를 만들라
     // 
     String obj1 = echo(new String("Hello"));
-    System.out.println(obj1);
     Date obj2 = echo(new Date());
-    System.out.println(obj2);
     Calendar obj3 = echo(Calendar.getInstance());
-    System.out.println(obj3);
     
     // 이렇게 각 타입에 맞는 echo()를 정의하면 사용하기 편하다.
     // 형변환 할 필요가 없다.

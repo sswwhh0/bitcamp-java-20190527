@@ -1,60 +1,45 @@
-//애플리케이션 메인 클래스
-// -> 애플리케이션을 실행할 때 이 클래스를 실행한다.
 package com.eomcs.lms;
 
+import java.sql.Date;
 import java.util.Scanner;
 
 public class App2 {
-  
-  static Scanner keyScan;
-  
+
   public static void main(String[] args) {
-    java.io.InputStream keyboard = System.in;
-    keyScan = new Scanner(keyboard);
     
-    int no = getIntValue("번호 입력 : ");
-    String name = getStringValue("이름 입력 : ");
-    String email = getStringValue("이메일 입력 : ");
-    String pw = getStringValue("암호 입력 : ");
-    String photo = getStringValue("사진 입력 : ");
-    int phoneNum = getIntValue("전화 입력 : ");
-    java.sql.Date joinDay = getDateValue("가입일 입력 : ");
+    Scanner keyboard = new Scanner(System.in);
+
+    System.out.print("번호? ");
+    int no = Integer.parseInt(keyboard.nextLine());
     
-    System.out.println();
-    System.out.println("번호 : "+no);
-    System.out.println("이름 : "+name);
-    System.out.println("이메일 : "+email);
-    System.out.println("암호 : "+pw);
-    System.out.println("사진 : "+photo);
-    System.out.println("전화 : "+phoneNum);
-    System.out.println("가입일 : "+joinDay);
+    System.out.print("이름? ");
+    String name = keyboard.nextLine();
+    
+    System.out.print("이메일? ");
+    String email = keyboard.nextLine();
+    
+    System.out.print("암호? ");
+    String password = keyboard.nextLine();
+
+    System.out.print("사진? ");
+    String photo = keyboard.nextLine();
+
+    System.out.print("전화? ");
+    String tel = keyboard.nextLine();
+
+    Date registeredDate = new Date(System.currentTimeMillis()); 
+        
+    // 사용후 스캐너 객체의 자원을 해제한다.
+    keyboard.close();
+    
+    System.out.println(); // 빈 줄 출력
+    
+    System.out.printf("번호: %d\n", no);
+    System.out.printf("이름: %s\n", name);
+    System.out.printf("이메일: %s\n", email);
+    System.out.printf("암호: %s\n", password);
+    System.out.printf("사진: %s\n", photo);
+    System.out.printf("전화: %s\n", tel);
+    System.out.printf("가입일: %s\n", registeredDate);
   }
-  
-  private static int getIntValue(String message) {
-    while(true) {
-      try {
-        System.out.print(message);
-        return Integer.valueOf(keyScan.nextLine());             
-      } catch(NumberFormatException e) {
-        System.out.println("숫자를 입력하세요");
-      }
-    }
-  }
-  
-  private static String getStringValue(String message) {
-    System.out.print(message);
-    return keyScan.nextLine();             
-  }
-  
-  private static java.sql.Date getDateValue(String message) {
-    while(true) {
-      try {
-        System.out.print(message);
-        return java.sql.Date.valueOf(keyScan.nextLine());             
-      } catch(IllegalArgumentException e) {
-        System.out.println("2019-07-05 형식으로 입력하세요");
-      }
-    }
-  }
-  
 }

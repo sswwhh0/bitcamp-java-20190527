@@ -1,4 +1,3 @@
-
 // 생성자 활용 - java.util.Calendar 클래스의 생성자
 package ch10;
 
@@ -14,17 +13,9 @@ public class Test16 {
     
     // Calendar는 인스턴스 생성을 도와주는 별도의 클래스 메서드(스태틱 메서드)를 제공한다.
     c1 = Calendar.getInstance();
-    final int YEAR = 1;
-    final int MONTH = 2;
-    final int DAY = 5;
     
-    System.out.println(c1.get(Calendar.YEAR));
-    System.out.println(c1.get(Calendar.MONDAY)+1);
-    System.out.println(c1.get(Calendar.DATE));
+    System.out.println(c1.get(Calendar.YEAR)); 
     
-    System.out.println(c1.get(5)); //날짜 추출하기   
-    System.out.println(c1.get(YEAR
-        ));
     /* 
      # 팩토리 메서드(factory method)
      - GoF(Gang of Four)의 23가지 디자인 패턴(design pattern) 중 하나이다. 

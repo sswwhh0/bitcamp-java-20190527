@@ -1,5 +1,5 @@
 // 애플리케이션 메인 클래스
-// -> 애플리케이션을 실행할 때 이 클래스를 실행한다.
+// => 애플리케이션을 실행할 때 이 클래스를 실행한다.
 package com.eomcs.lms;
 
 import java.util.Scanner;
@@ -10,47 +10,70 @@ import com.eomcs.lms.handler.MemberHandler;
 import com.eomcs.lms.util.Input;
 
 public class App {
-
+  
   static Scanner keyScan;
-
+  
   public static void main(String[] args) {
+    
     keyScan = new Scanner(System.in);
     
     Input.keyScan = keyScan;
     LessonHandler.keyScan = keyScan;
     MemberHandler.keyScan = keyScan;
     BoardHandler.keyScan = keyScan;
+    BoardHandler2.keyScan = keyScan;
     
-    while(true) {
+    while (true) {
+      
       String command = prompt();
       
-      if(command.equals("quit")) {
-        System.out.println("종료되었습니다");
+      if (command.equals("quit")) {
         break;
-      }else if(command.equals("/lesson/add")) {
-        LessonHandler.addLesson();
-      }else if(command.equals("/lesson/list")) {
+        
+      } else if (command.equals("/lesson/add")) {
+        LessonHandler.addLesson(); // addLesson() 메서드 블록에 묶어 놓은 코드를 실행한다.
+        
+      } else if (command.equals("/lesson/list")) {
         LessonHandler.listLesson();
-      }else if(command.equals("/member/add")) {
+        
+      } else if (command.equals("/member/add")) {
         MemberHandler.addMember();
-      }else if(command.equals("/member/list")) {
+      
+      } else if (command.equals("/member/list")) {
         MemberHandler.listMember();
-      }else if(command.equals("/board/add")) {
+        
+      } else if (command.equals("/board/add")) {
         BoardHandler.addBoard();
-      }else if(command.equals("/board/list")) {
+        
+      } else if (command.equals("/board/list")) {
         BoardHandler.listBoard();
-      }else if(command.equals("/board2/add")) {
-        BoardHandler2.addBoard2();
-      }else if(command.equals("/board2/list")) {
-        BoardHandler2.listBoard2();
-      }else {
-        System.out.println("해당 명령을 지원하지 않습니다.");
+        
+      } else if (command.equals("/board2/add")) {
+        BoardHandler2.addBoard();
+        
+      } else if (command.equals("/board2/list")) {
+        BoardHandler2.listBoard();
+        
+      } else {
+        System.out.println("해당 명령을 지원하지 않습니다!");
       }
+      
       System.out.println();
     }
   }
+
   static String prompt() {
-    System.out.print("명령 > ");
+    System.out.print("명령> ");
     return keyScan.nextLine();
   }
 }
+
+
+
+
+
+
+
+
+
+

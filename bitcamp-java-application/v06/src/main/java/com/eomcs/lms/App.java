@@ -1,5 +1,5 @@
-//애플리케이션 메인 클래스
-// -> 애플리케이션을 실행할 때 이 클래스를 실행한다.
+// 애플리케이션 메인 클래스
+// => 애플리케이션을 실행할 때 이 클래스를 실행한다.
 package com.eomcs.lms;
 
 import java.sql.Date;
@@ -21,49 +21,50 @@ public class App {
     int[] totalHours = new int[100];
     int[] dayHours = new int[100];
     
-    int i=0;
-        
-    for(; i<no.length; i++) {
-      no[i] = getIntValue("번호 입력 : ");   
-      lectureName[i] = getStringValue("수업명 입력 : ");
-      description[i] = getStringValue("설명 입력 : ");
-      startDate[i] = getDateValue("시작일 입력 : ");
-      endDate[i] = getDateValue("종료일 입력 : ");
-      totalHours[i] = getIntValue("총 수업시간 입력 : ");
-      dayHours[i] = getIntValue("일 수업시간 입력 : ");
+    
+    int i = 0;
+    for ( ; i < no.length; i++) {
+      no[i] = getIntValue("번호? ");
+      lectureName[i] = getStringValue("수업명? ");
+      description[i] = getStringValue("설명? ");
+      startDate[i] = getDateValue("시작일? ");
+      endDate[i] = getDateValue("종료일? ");
+      totalHours[i] = getIntValue("총수업시간? ");
+      dayHours[i] = getIntValue("일수업시간? ");
       
-      System.out.println("계속 입력하시겠습니까? (y/n)");
+      System.out.print("계속 입력하시겠습니까?(Y/n) ");
       String response = keyScan.nextLine();
       
-      if(response.equals("n")) {
+      if (response.equals("n"))
         break;
-      }
     }
     
-    for (int i2=0; i2<=i; i2++) {
-      System.out.printf("%s, %s, %s, %s ~ %s, %s, %s\n",no[i2], lectureName[i2], 
-          description[i2], startDate[i2], endDate[i2], totalHours[i2], dayHours[i2]);
+    System.out.println();
+    
+    for (int i2 = 0; i2 <= i; i2++) {
+      System.out.printf("%s, %s, %s ~ %s, %s\n", 
+          no[i2], lectureName[i2], startDate[i2], endDate[i2], totalHours[i2]);
     }
   }
   
   private static int getIntValue(String message) {
-    while(true) {
+    while (true) {
       try {
         System.out.print(message);
         return Integer.parseInt(keyScan.nextLine());
-      } catch(NumberFormatException e) {
-        System.out.println("숫자를 입력하세요");
+      } catch (NumberFormatException e) {
+        System.out.println("숫자를 입력하세요.");
       }
     }
   }
   
-  private static java.sql.Date getDateValue(String message) {
-    while(true) {
+  private static Date getDateValue(String message) {
+    while (true) {
       try {
         System.out.print(message);
-        return java.sql.Date.valueOf(keyScan.nextLine());
-      } catch(IllegalArgumentException e) {
-        System.out.println("2019-07-05 형식으로 입력하세요");
+        return Date.valueOf(keyScan.nextLine());
+      } catch (IllegalArgumentException e) {
+        System.out.println("2019-07-05 형식으로 입력하세요.");
       }
     }
   }
@@ -72,5 +73,14 @@ public class App {
     System.out.print(message);
     return keyScan.nextLine();
   }
-  
 }
+
+
+
+
+
+
+
+
+
+

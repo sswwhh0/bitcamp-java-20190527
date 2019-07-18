@@ -17,13 +17,21 @@ public class Test03 {
     s.setArt(100); // Score3의 메서드
     System.out.printf("%s: %d(%.1f)\n", s.getName(), s.getSum(), s.getAver());
     
-    System.out.println("---------------------------");
+    System.out.println("-----------------------");
+    
     Score s2 = new Score();
     s2.setName("임꺽정");
     s2.setKor(90);
     s2.setEng(90);
     s2.setMath(90);
     System.out.printf("%s: %d(%.1f)\n", s2.getName(), s2.getSum(), s2.getAver());
-    
   }
 }
+
+
+
+
+
+
+
+

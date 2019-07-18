@@ -4,12 +4,11 @@
 package com.eomcs.lms;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
-// import 어쩌고
+//import static org.junit.Assert.*;
 
 public class AppTest {
     @Test public void testAppHasAGreeting() {
-//        App classUnderTest = new App();
-//        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+        //App classUnderTest = new App();
+        //assertNotNull("app should have a greeting", classUnderTest.getGreeting());
     }
 }

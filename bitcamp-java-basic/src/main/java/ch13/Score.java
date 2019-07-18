@@ -5,7 +5,7 @@ public class Score {
   private String name;
   protected int kor;
   protected int eng;
-  protected int math;
+  protected int math; 
   
   // 서브 클래스에서 사용할 필드는 protected로 접근을 풀어 준다.
   // => 접근 범위를 넓히는 것은 기존 코드에 영향을 미치지 않는다.
