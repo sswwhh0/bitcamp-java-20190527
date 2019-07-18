@@ -1,8 +1,9 @@
-package com.eomcs.lms.util;
+package com.eomcs.util;
 
-public class LinkedTest {
+public class LinkedListTest {
+
   public static void main(String[] args) {
-    LinkedList list = new LinkedList();
+    LinkedList<String> list = new LinkedList<>();
     list.add("aaa");
     list.add("bbb");
     list.add("ccc");
@@ -25,10 +26,10 @@ public class LinkedTest {
     list.add("nono");
     list.add("hul");
     
-//    list.clear();
+    //list.clear();
     
-    Object[] arr = list.toArray();
-    for(Object obj : arr) {
+    String[] arr = list.toArray(new String[] {});
+    for (String obj : arr) {
       System.out.println(obj);
     }
   }
