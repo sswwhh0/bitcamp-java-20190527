@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class Test11 {
   
   public static void main(String[] args) {
+    
     class Key {
       int major;
       int minor;

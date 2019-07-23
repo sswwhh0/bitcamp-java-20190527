@@ -26,7 +26,8 @@ public class Test03 {
     System.out.println(list);
     
     // contains(): 
-    // => 인스턴스가 다르더라도 equals()의 리턴 값이 true 라면 
+    // => 인스턴스가 다르더라도 equals()의 리턴 값이 true이고,
+    //    hashCode어쩌구
     //    같은 값이 목록에 있는 것으로 판단한다.
     System.out.println(list.contains(s2));
     System.out.println(list.contains(s4));
