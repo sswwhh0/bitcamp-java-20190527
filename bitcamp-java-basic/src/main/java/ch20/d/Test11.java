@@ -6,7 +6,6 @@ import java.util.HashMap;
 public class Test11 {
   
   public static void main(String[] args) {
-    
     class Key {
       int major;
       int minor;
@@ -76,6 +75,8 @@ public class Test11 {
     System.out.println(map.get(k1));
     System.out.println(map.get(k2));
     System.out.println(map.get(k3));
+
+    System.out.println("--------------------------");
 
     Key k4 = new Key(100, 2);
     System.out.println(map.get(k4));

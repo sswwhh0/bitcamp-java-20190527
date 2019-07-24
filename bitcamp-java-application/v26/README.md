@@ -7,7 +7,6 @@
 
 
 ## 실습 소스 및 결과
-
 - src/main/java/com/eomcs/lms/handler/Command.java 추가
 - src/main/java/com/eomcs/lms/handler/LessonAddCommand.java 추가
 - src/main/java/com/eomcs/lms/handler/LessonListCommand.java 추가
@@ -56,15 +55,23 @@
 
 ### 훈련 4: 사용자로부터 이름을 입력 받아 인사 문구를 출력하라!
 
-- App 실행시
-    명령> /hi
-    이름? 홍길동
-    안녕하세요, 홍길동님!
+`App`을 실행하면 다음과 같이 실행된다.
+
+```
+명령> /hi
+이름? 홍길동
+안녕하세요, 홍길동님!
+
+```
 
 ### 훈련 5: 더하기 계산 기능을 추가하라!
 
-- App 실행시
-    명령> /calc/plus
-    값1? 100
-    값2? 200
-    합계는 300입니다.
+`App`을 실행하면 다음과 같이 실행된다.
+
+```
+명령> /calc/plus
+값1? 100
+값2? 200
+합계는 300 입니다.
+
+```

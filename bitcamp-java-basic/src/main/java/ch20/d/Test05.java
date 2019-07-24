@@ -33,7 +33,6 @@ public class Test05 {
     Set<Entry<String,Student>> entrySet = map.entrySet();
     for (Entry<String,Student> entry : entrySet) {
       System.out.printf("%s==>%s\n", entry.getKey(), entry.getValue());
-      System.out.println(entry);
     }
     
   }

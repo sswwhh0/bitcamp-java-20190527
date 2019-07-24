@@ -16,9 +16,4 @@ public class BubbleSort {
       }
     }
   }
-  public static void main(String[] args) {
-    BubbleSort bu = new BubbleSort();
-    int []arr = {10};
-    bu.run(arr);
-  }
 }
