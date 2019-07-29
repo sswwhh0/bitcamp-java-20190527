@@ -1,5 +1,5 @@
 // 바이너리 데이터 입출력 - FileInputStream : 배열의 특정 영역에 저장하기
-package ch22.b;
+package ch22.b.byte_stream;
 
 import java.io.FileInputStream;
 

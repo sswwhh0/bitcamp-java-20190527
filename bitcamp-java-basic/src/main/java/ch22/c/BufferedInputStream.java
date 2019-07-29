@@ -21,11 +21,12 @@ public class BufferedInputStream extends InputStream {
   }
   
   public int read() throws IOException {
-    if (cursor >= size) {
-      size = in.read(buf);
-      if (size == -1)
+    if (cursor >= size) { //버퍼에 보관된 데이터를 다 읽었으면,
+      size = in.read(buf); //다시 파일인풋스트림을 사용하여 1024바이트를 읽어 온다.
+      if (size == -1) //물론 파일에 읽은 데이터가 없다면, 즉 다 읽었다면 -1을 리턴한다.
         return -1;
-      cursor = 0;
+      cursor = 0; // 파일인풋스트림을 사용하여 새로 1024바이트를 읽어 버퍼에 저장했다면,
+                  // 다시 컷허의 위치를 0으로 설정한다.
     }
     
     // 바이트의 값을 온전히 4바이트 int 값으로 변환하기 위해
