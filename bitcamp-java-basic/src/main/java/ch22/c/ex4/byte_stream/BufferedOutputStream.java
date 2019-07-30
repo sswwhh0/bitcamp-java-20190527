@@ -1,4 +1,4 @@
-package ch22.c.ex4;
+package ch22.c.ex4.byte_stream;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.io.OutputStream;
 public class BufferedOutputStream extends DecoratorOutputStream {
   
   byte[] buf = new byte[1024];
-  int size = 0; 
+  int size = 0;
   
   public BufferedOutputStream(OutputStream other) throws FileNotFoundException {
     super(other);

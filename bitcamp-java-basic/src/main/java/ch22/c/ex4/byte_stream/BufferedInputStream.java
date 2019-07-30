@@ -1,4 +1,4 @@
-package ch22.c.ex4;
+package ch22.c.ex4.byte_stream;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,7 @@ public class BufferedInputStream extends DecoratorInputStream {
   }
   
   @Override
-  public int read() throws IOException { 
+  public int read() throws IOException {
     if (cursor >= size) { 
       count++;
       size = other.read(buf); 

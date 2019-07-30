@@ -1,4 +1,4 @@
-package ch22.c.ex4;
+package ch22.c.ex4.byte_stream;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.io.OutputStream;
 public class DataOutputStream extends DecoratorOutputStream {
 
   public DataOutputStream(OutputStream other) throws FileNotFoundException {
-    super(other); 
+    super(other);
   }
   
   // 자신에게 1바이트 출력하라고 요청이 들어오면 
