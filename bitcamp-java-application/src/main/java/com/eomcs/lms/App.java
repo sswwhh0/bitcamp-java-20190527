@@ -145,8 +145,6 @@ public class App {
     return keyScan.nextLine();
   }
   
-
-  
   // ApplicationContextListener 옵저버를 등록하는 메서드
   public void addApplicationContextListener(ApplicationContextListener listener) {
     this.appCtxListeners.add(listener);
