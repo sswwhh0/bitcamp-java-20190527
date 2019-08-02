@@ -11,6 +11,11 @@ public class Board implements Serializable {
   private Date createdDate;
   private int viewCount;
   
+  @Override
+  public String toString() {
+    return "Board [no=" + no + ", contents=" + contents + ", createdDate=" + createdDate
+        + ", viewCount=" + viewCount + "]";
+  }
   public int getNo() {
     return no;
   }
@@ -34,11 +39,6 @@ public class Board implements Serializable {
   }
   public void setViewCount(int viewCount) {
     this.viewCount = viewCount;
-  }
-  @Override
-  public String toString() {
-    return "Board [no=" + no + ", contents=" + contents + ", createdDate=" + createdDate
-        + ", viewCount=" + viewCount + "]";
   }
   
 }

@@ -14,6 +14,11 @@ public class Member implements Serializable {
   private String photo;
   private Date registeredDate;
   
+  @Override
+  public String toString() {
+    return "Member [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password
+        + ", tel=" + tel + ", photo=" + photo + ", registeredDate=" + registeredDate + "]";
+  }
   public int getNo() {
     return no;
   }
@@ -55,11 +60,6 @@ public class Member implements Serializable {
   }
   public void setRegisteredDate(Date registeredDate) {
     this.registeredDate = registeredDate;
-  }
-  @Override
-  public String toString() {
-    return "Member [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password
-        + ", tel=" + tel + ", photo=" + photo + ", registeredDate=" + registeredDate + "]";
   }
   
 }

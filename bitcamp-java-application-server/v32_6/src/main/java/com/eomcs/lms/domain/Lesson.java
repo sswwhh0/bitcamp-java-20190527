@@ -15,6 +15,12 @@ public class Lesson implements Serializable {
   private int totalHours;
   private int dayHours;
   
+  @Override
+  public String toString() {
+    return "Lesson [no=" + no + ", title=" + title + ", contents=" + contents + ", startDate="
+        + startDate + ", endDate=" + endDate + ", totalHours=" + totalHours + ", dayHours="
+        + dayHours + "]";
+  }
   public int getNo() {
     return no;
   }
@@ -56,12 +62,6 @@ public class Lesson implements Serializable {
   }
   public void setDayHours(int dayHours) {
     this.dayHours = dayHours;
-  }
-  @Override
-  public String toString() {
-    return "Lesson [no=" + no + ", title=" + title + ", contents=" + contents + ", startDate="
-        + startDate + ", endDate=" + endDate + ", totalHours=" + totalHours + ", dayHours="
-        + dayHours + "]";
   }
   
   
