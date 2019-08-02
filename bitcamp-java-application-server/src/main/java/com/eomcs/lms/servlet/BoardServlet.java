@@ -1,19 +1,19 @@
-package com.eomcs.lms;
+package com.eomcs.lms.servlet;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import com.eomcs.lms.domain.Member;
+import com.eomcs.lms.domain.Board;
 
 // 게시물 요청을 처리하는 담당자
-public class MemberServlet implements Servlet {
+public class BoardServlet implements Servlet {
   
-  ArrayList<Member> memberList = new ArrayList<>();
+  ArrayList<Board> boardList = new ArrayList<>();
   
   ObjectInputStream in;
   ObjectOutputStream out;
   
-  public MemberServlet(ObjectInputStream in, ObjectOutputStream out) {
+  public BoardServlet(ObjectInputStream in, ObjectOutputStream out) {
     this.in = in;
     this.out = out;
   }
@@ -21,20 +21,20 @@ public class MemberServlet implements Servlet {
   @Override
   public void service(String command) throws Exception {
     switch (command) {
-      case "/member/add":
-        addMember();
+      case "/board/add":
+        addBoard();
         break;
-      case "/member/list":
-        listMember();
+      case "/board/list":
+        listBoard();
         break;
-      case "/member/delete":
-        deleteMember();
+      case "/board/delete":
+        deleteBoard();
         break;  
-      case "/member/detail":
-        detailMember();
+      case "/board/detail":
+        detailBoard();
         break;
-      case "/member/update":
-        updateMember();
+      case "/board/update":
+        updateBoard();
         break;
       default:
         out.writeUTF("fail");
@@ -42,57 +42,57 @@ public class MemberServlet implements Servlet {
     }
   }
   
-  private void updateMember() throws Exception {
-    Member member = (Member)in.readObject();
+  private void updateBoard() throws Exception {
+    Board board = (Board)in.readObject();
     
-    int index = indexOfMember(member.getNo());
+    int index = indexOfBoard(board.getNo());
     if (index == -1) {
       fail("해당 번호의 게시물이 없습니다.");
       return;
     }
-    memberList.set(index, member);
+    boardList.set(index, board);
     out.writeUTF("ok");
   }
 
-  private void detailMember() throws Exception {
+  private void detailBoard() throws Exception {
     int no = in.readInt();
     
-    int index = indexOfMember(no);
+    int index = indexOfBoard(no);
     if (index == -1) {
       fail("해당 번호의 게시물이 없습니다.");
       return;
     }
     out.writeUTF("ok");
-    out.writeObject(memberList.get(index));
+    out.writeObject(boardList.get(index));
   }
 
-  private void deleteMember() throws Exception {
+  private void deleteBoard() throws Exception {
     int no = in.readInt();
     
-    int index = indexOfMember(no);
+    int index = indexOfBoard(no);
     if (index == -1) {
       fail("해당 번호의 게시물이 없습니다.");
       return;
     }
-    memberList.remove(index);
+    boardList.remove(index);
     out.writeUTF("ok");
   }
 
-  private void addMember() throws Exception {
-    Member member = (Member)in.readObject();
-    memberList.add(member);
+  private void addBoard() throws Exception {
+    Board board = (Board)in.readObject();
+    boardList.add(board);
     out.writeUTF("ok");
   }
   
-  private void listMember() throws Exception {
+  private void listBoard() throws Exception {
     out.writeUTF("ok");
     out.reset(); // 기존에 serialize 했던 객체의 상태를 무시하고 다시 serialize 한다.
-    out.writeObject(memberList);
+    out.writeObject(boardList);
   }
   
-  private int indexOfMember(int no) {
+  private int indexOfBoard(int no) {
     int i = 0;
-    for (Member obj : memberList) {
+    for (Board obj : boardList) {
       if (obj.getNo() == no) {
         return i;
       }
