@@ -14,10 +14,10 @@ public class ServerTest {
     try (Socket socket = new Socket("localhost", 8888)) {
       //서버와의 입출력을 위해 스트림 객체를 준비한다.
       // -> 버퍼를 사용할 경우, 데이터를 보내는 쪽에서는 출력 스트림을 먼저 준비하라!
-      PrintWriter out = new PrintWriter(new BufferedOutputStream(
-          socket.getOutputStream()));
       BufferedReader in = new BufferedReader(
           new InputStreamReader(socket.getInputStream()));
+      PrintWriter out = new PrintWriter(new BufferedOutputStream(
+          socket.getOutputStream()));
       
       System.out.println("서버와 연결되었음!");
       
