@@ -52,10 +52,9 @@ public class ClientApp {
         //서버를 멈출 때는 서버가 상태 값을 처리할 수 있도록 한 번 더 요청을 보낸다.
         if(command.equals("serverstop")) {
           request(command);
-          break;
         }
 
-        if (command.equals("quit")) {
+        if (command.equals("quit") || command.equals("serverstop")) {
           break;
         }
       }

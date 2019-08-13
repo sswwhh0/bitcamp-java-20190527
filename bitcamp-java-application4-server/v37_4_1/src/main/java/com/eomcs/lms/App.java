@@ -1,4 +1,4 @@
-// client-v37_6 : 스레드풀 적용하기.
+// client-v37_5 : Stateless 통신 방법은 하나의 요청처리 도중일 경우 안됨. 멀티스레드 전송하여 해결
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -9,8 +9,6 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.dao.MemberDao;
@@ -45,9 +43,6 @@ public class App {
   Connection con;
   HashMap<String,Command> commandMap = new HashMap<>();
   int state;
-
-  //스레드풀 적용하기
-  ExecutorService executorService = Executors.newCachedThreadPool();
 
   public App() throws Exception {
 
@@ -92,15 +87,14 @@ public class App {
 
   }
 
-  @SuppressWarnings("static-access")
   private void service() {
 
     try(ServerSocket serverSocket = new ServerSocket(8888)) {
       System.out.println("애플리케이션 서버가 시작되었음!");
 
       while(true) {
-        //클라이언트가 접속하면 작업을 수행할 Runnable 객체를 만들어 스레드풀에 맡긴다
-        executorService.submit(new CommandProcessor(serverSocket.accept()));
+        //클라이언트가 접속하면 별도의 스레드를 생성하여 처리를 맡긴다.
+        new Thread(new CommandProcessor(serverSocket.accept())).start();
 
         //한 클라이언트 중에서 serverstop 명령을 보내면 종료 상태로 설정되고
         //다음 요청을 처리할 때 즉시 실행을 멈춘다.
@@ -108,17 +102,6 @@ public class App {
           break;
         }
       }
-
-      //스레드풀의 실행을 종료를 요청한다.
-      //-> 스레드풀은 자신이 관리하는 스레드들이 실행이 종료되었는지 감시한다.
-      executorService.shutdown();
-      
-      //스레드풀이 관리하는 모든 스레드가 종료되었는지 매 0.5초마다 검사한다.
-      //-> 스레드풀의 모든 스레드가 실행을 종료했으면 즉시 main 스레드를 종료한다.
-      while(!executorService.isTerminated()) {
-        Thread.currentThread().sleep(500);
-      }
-
       System.out.println("애플리케이션 서버를 종료함!");
     } catch (Exception e) {
       System.out.println("소켓 통신 오류!");
@@ -157,6 +140,7 @@ public class App {
         } else if(request.equals("serverstop")) {
           state = STOP;
           out.println("Good Bye");
+          dummyRequest();
         } else {
           //non-static 중첩 클래스는 바깥 클래스의 인스턴스 멤버를 사용할 수 없다.
           Command command = commandMap.get(request);
@@ -173,8 +157,31 @@ public class App {
       } catch(Exception e) {
         System.out.println("클라이언트와 통신 오류!");
       }
+
     }
 
+  }
+
+  private void dummyRequest() {
+    //클라이언트에서 serverstop 명령을 보내면
+    //state의 값이 STOP으로 바뀐다.
+    //이 state 상태를 인식하여 즉시 인식할 수 있도록 가상의 클라이언트가 되어 요청을 보낸다.
+    try (Socket socket = new Socket("localhost", 8888);
+        PrintStream out = new PrintStream(socket.getOutputStream());
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(socket.getInputStream()))) {
+
+      out.println("quit");
+      out.flush();
+      while(true) {
+        if(in.readLine().equals("!end!")) {
+          break;
+        }
+      }
+
+    } catch(Exception e) {
+      System.out.println("클라이언트와 통신 오류!");
+    }
   }
 
   public static void main(String[] args) {
