@@ -11,6 +11,10 @@ public class Test01 {
     String str = "ABC012가각간";
     
     byte[] bytes = str.getBytes("UTF-8");
+    for(byte b : bytes) {
+      System.out.printf("%x ",b);
+    }
+    System.out.println();
     
     // Base64 인코딩
     // => 바이너리 데이터를 문자화시킨다.
@@ -30,6 +34,10 @@ public class Test01 {
     //    QUJDMDEy6rCA6rCB6rCE
     Encoder encoder = Base64.getEncoder();
     byte[] base64Bytes = encoder.encode(bytes);
+    for(byte b : base64Bytes) {
+      System.out.printf("%x ", b);
+    }
+    System.out.println();
 
     System.out.println(new String(base64Bytes));
     
