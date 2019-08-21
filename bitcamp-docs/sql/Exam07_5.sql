@@ -131,6 +131,7 @@ from lect l left outer join room r on l.rno=r.rno;
 /* 다음 질의문은 안타깝게도 학생 목록만 출력한다.
     왜? memb테이블의 데이터와 stnt 테이블의 데이터를 
     추출할 때 mno가 같은 데이터만 추출한다.*/
+
 select m.mno, name, work
 from memb m join stnt s on m.mno=s.mno;                     
       

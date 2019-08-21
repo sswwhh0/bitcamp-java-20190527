@@ -14,17 +14,17 @@ import java.util.concurrent.Executors;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.dao.LessonDao;
 import com.eomcs.lms.dao.MemberDao;
+import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.dao.mariadb.BoardDaoImpl;
 import com.eomcs.lms.dao.mariadb.LessonDaoImpl;
 import com.eomcs.lms.dao.mariadb.MemberDaoImpl;
+import com.eomcs.lms.dao.mariadb.PhotoBoardDaoImpl;
 import com.eomcs.lms.handler.BoardAddCommand;
 import com.eomcs.lms.handler.BoardDeleteCommand;
 import com.eomcs.lms.handler.BoardDetailCommand;
 import com.eomcs.lms.handler.BoardListCommand;
 import com.eomcs.lms.handler.BoardUpdateCommand;
-import com.eomcs.lms.handler.CalcPlusCommand;
 import com.eomcs.lms.handler.Command;
-import com.eomcs.lms.handler.HiCommand;
 import com.eomcs.lms.handler.LessonAddCommand;
 import com.eomcs.lms.handler.LessonDeleteCommand;
 import com.eomcs.lms.handler.LessonDetailCommand;
@@ -36,6 +36,11 @@ import com.eomcs.lms.handler.MemberDetailCommand;
 import com.eomcs.lms.handler.MemberListCommand;
 import com.eomcs.lms.handler.MemberSearchCommand;
 import com.eomcs.lms.handler.MemberUpdateCommand;
+import com.eomcs.lms.handler.PhotoBoardAddCommand;
+import com.eomcs.lms.handler.PhotoBoardDeleteCommand;
+import com.eomcs.lms.handler.PhotoBoardDetailCommand;
+import com.eomcs.lms.handler.PhotoBoardListCommand;
+import com.eomcs.lms.handler.PhotoBoardUpdateCommand;
 
 public class App {
 
@@ -62,6 +67,7 @@ public class App {
       BoardDao boardDao = new BoardDaoImpl(con);
       LessonDao lessonDao = new LessonDaoImpl(con);
       MemberDao memberDao = new MemberDaoImpl(con);
+      PhotoBoardDao photoBoardDao = new PhotoBoardDaoImpl(con);
 
       //클라이언트 명령을 처리할 커맨드 객체를 준비한다.
       commandMap.put("/lesson/add", new LessonAddCommand(lessonDao));
@@ -82,9 +88,13 @@ public class App {
       commandMap.put("/board/detail", new BoardDetailCommand(boardDao));
       commandMap.put("/board/list", new BoardListCommand(boardDao));
       commandMap.put("/board/update", new BoardUpdateCommand(boardDao));
+      
+      commandMap.put("/photoboard/add", new PhotoBoardAddCommand(photoBoardDao));
+      commandMap.put("/photoboard/delete", new PhotoBoardDeleteCommand(photoBoardDao));
+      commandMap.put("/photoboard/detail", new PhotoBoardDetailCommand(photoBoardDao));
+      commandMap.put("/photoboard/list", new PhotoBoardListCommand(photoBoardDao));
+      commandMap.put("/photoboard/update", new PhotoBoardUpdateCommand(photoBoardDao));
 
-      commandMap.put("/hi", new HiCommand(null));
-      commandMap.put("/calc/plus", new CalcPlusCommand(null));
     } catch (Exception e) {
       System.out.println("DBMS에 연결할 수 없습니다!");
       throw e;
