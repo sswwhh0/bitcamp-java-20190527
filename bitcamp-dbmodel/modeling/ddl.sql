@@ -1,4 +1,5 @@
 SET FOREIGN_KEY_CHECKS = 0;
+
 -- 학생
 DROP TABLE IF EXISTS students RESTRICT;
 
@@ -211,7 +212,7 @@ ALTER TABLE room_photos
 -- 강의과목
 CREATE TABLE subjects (
   subject_id INTEGER     NOT NULL COMMENT '강의과목번호', -- 강의과목번호
-  title      VARCHAR(25) NULL     COMMENT '과목명' -- 과목명
+  title      VARCHAR(25) NOT NULL COMMENT '과목명' -- 과목명
 )
 COMMENT '강의과목';
 
@@ -307,7 +308,7 @@ ALTER TABLE members
 -- 학력
 CREATE TABLE school_grade (
   sg_id INTEGER     NOT NULL COMMENT '학력번호', -- 학력번호
-  name  VARCHAR(25) NULL     COMMENT '학력명' -- 학력명
+  name  VARCHAR(25) NOT NULL COMMENT '학력명' -- 학력명
 )
 COMMENT '학력';
 
@@ -456,4 +457,14 @@ ALTER TABLE members
     REFERENCES school_grade ( -- 학력
       sg_id -- 학력번호
     );
-SET FOREIGN_KEY_CHECKS = 1;
+    
+SET FOREIGN_KEY_CHECKS = 1;    
+    
+
+
+
+
+
+
+
+
