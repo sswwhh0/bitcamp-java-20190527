@@ -1,4 +1,4 @@
-// client-v41_1 : 커넥션풀 도입하기
+// client-v40_2 : 스레드 전용 커넥션 객체 사용하기(스레드 로컬 문법 적용) + 트랜잭션 처리 + 트랜잭션 관리자 도입
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
