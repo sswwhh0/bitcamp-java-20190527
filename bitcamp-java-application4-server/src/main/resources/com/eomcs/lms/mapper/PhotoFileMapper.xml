@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PhotoFileDao">
+	<!-- Mybatis가 컬럼값을 객체에 담을 때 컬럼 이름으로 셋터를 찾아 호출한다. -->
+	<!-- <select id="findAll" resultType="com.eomcs.lms.domain.Photo"> select 
+		photo_id, photo_conts, cdt, vw_cnt from lms_photo order by photo_id desc 
+		</select> -->
+
+	<!-- 만약 컬럼에 별명이 있다면 셋터를 호출할 때도 그 별명과 일치하는 셋터를 호출한다. 컬럼의 이름과 셋터의 이름이 다르다면 
+		다음과 같이 셋터 이름과 같은 이름으로 컬럼에 별명을 부여하라! 그래야만 컬럼의 값을 객체에 제대로 담을 수 있다. -->
+	<select id="findAll" parameterType="int"
+	resultType="com.eomcs.lms.domain.PhotoFile">
+		select 
+		photo_file_id as no,
+		photo_id as boardNo,
+		file_path as filePath
+		from lms_photo_file
+		where photo_id=#{boardNo}
+		order by photo_file_id desc
+	</select>
+
+	<insert id="insert" parameterType="com.eomcs.lms.domain.PhotoFile">
+		insert into
+		lms_photo_file(photo_id, file_path)
+		values (#{boardNo},#{filePath})
+	</insert>
+
+	<delete id="deleteAll"
+		parameterType="int">
+		delete from lms_photo_file where photo_id=#{value}
+	</delete>
+
+</mapper>

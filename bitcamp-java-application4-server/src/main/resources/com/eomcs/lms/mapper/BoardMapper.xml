@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDao">
+<!-- Mybatis가 컬럼값을 객체에 담을 때 컬럼 이름으로 셋터를 찾아 호출한다. -->
+  <!--
+  <select id="findAll" resultType="com.eomcs.lms.domain.Board">
+    select board_id,
+    board_conts,
+    cdt,
+    vw_cnt 
+    from lms_board order by board_id desc
+  </select> 
+  -->
+  
+  <!-- 만약 컬럼에 별명이 있다면 셋터를 호출할 때도 그 별명과 일치하는 셋터를 호출한다.
+              컬럼의 이름과 셋터의 이름이 다르다면 다음과 같이 셋터 이름과 같은  이름으로
+              컬럼에 별명을 부여하라! 그래야만 컬럼의 값을 객체에 제대로 담을 수 있다. -->
+	<select id="findAll" resultType="com.eomcs.lms.domain.Board">
+		select board_id as no,
+		conts as contents,
+		cdt as createdDate,
+		vw_cnt as viewCount
+		from lms_board order by
+		board_id desc
+	</select>
+
+	<select id="findBy" parameterType="int"
+		resultType="com.eomcs.lms.domain.Board">
+		select board_id as no,
+		conts as
+		contents,
+		cdt as createdDate,
+		vw_cnt as viewCount
+		from lms_board
+		where
+		board_id=#{haha}
+	</select>
+
+	<update id="increaseViewCount" parameterType="int">
+		update lms_board
+		set
+		vw_cnt = vw_cnt+1
+		where board_id=#{value}
+	</update>
+
+	<insert id="insert" parameterType="com.eomcs.lms.domain.Board">
+		insert into lms_board(conts)
+		values(#{contents})
+	</insert>
+
+	<update id="update" parameterType="com.eomcs.lms.domain.Board">
+		update lms_board set conts =#{contents}
+		where board_id =#{no}
+	</update>
+	
+	<delete id="delete" parameterType="com.eomcs.lms.domain.Board">
+	delete from lms_board where board_id=#{value}
+	</delete>
+	
+</mapper>
