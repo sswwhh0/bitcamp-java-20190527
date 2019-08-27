@@ -1,4 +1,4 @@
-// client-v43_1 : mybatis 도입
+// client-v43_2 : Mybaits 도입하기 + 도메인 클래스 별명 적용 + SQL매퍼에 resultMap 적용
 package com.eomcs.lms;
 
 import java.io.BufferedReader;

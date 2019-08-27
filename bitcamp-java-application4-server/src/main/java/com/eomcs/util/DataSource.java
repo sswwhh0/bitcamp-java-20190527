@@ -27,7 +27,7 @@ public class DataSource {
   }
 
   public Connection getConnection() throws Exception {
-
+    System.out.println("getConnection 실행!");
     //스레드 전용 바구니에서 커넥션 객체를 꺼낸다
     Connection con = localConnection.get();
 
@@ -46,7 +46,7 @@ public class DataSource {
       //생성한 커넥션을 리턴하기 전에 ThreadLocal 도구를 사용하여 현재 스레드에 보관한다.
       localConnection.set(con);
     }
-
+    con.setAutoCommit(false);
     return con;
   }
 

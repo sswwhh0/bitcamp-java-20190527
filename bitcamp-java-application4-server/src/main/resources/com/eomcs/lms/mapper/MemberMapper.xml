@@ -3,46 +3,53 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MemberDao">
+<resultMap type="Member" id="MemberMap">
+<id column="member_id" property="no"/>
+<result column="pwd" property="password"/>
+<result column="cdt" property="registeredDate"/>
+</resultMap>
 	<!-- Mybatis가 컬럼값을 객체에 담을 때 컬럼 이름으로 셋터를 찾아 호출한다. -->
-	<!-- <select id="findAll" resultType="com.eomcs.lms.domain.Member"> select 
+	<!-- <select id="findAll" resultType="Member"> select 
 		member_id, member_conts, cdt, vw_cnt from lms_member order by member_id desc 
 		</select> -->
 
 	<!-- 만약 컬럼에 별명이 있다면 셋터를 호출할 때도 그 별명과 일치하는 셋터를 호출한다. 컬럼의 이름과 셋터의 이름이 다르다면 
 		다음과 같이 셋터 이름과 같은 이름으로 컬럼에 별명을 부여하라! 그래야만 컬럼의 값을 객체에 제대로 담을 수 있다. -->
-	<select id="findAll" resultType="com.eomcs.lms.domain.Member">
-		select member_id as no,
+	<select id="findAll" resultMap="MemberMap">
+		select 
+		member_id,
 		name,
 		email,
-		pwd as password,
+		pwd,
 		tel,
 		photo,
-		cdt as registeredDate
+		cdt
 		from lms_member
 		order by
 		member_id desc
 	</select>
 
 	<select id="findBy" parameterType="int"
-		resultType="com.eomcs.lms.domain.Member">
-		select member_id as no,
-		name,
-		email,
-		pwd as password,
-		tel,
-		photo,
-		cdt as registeredDate
+		resultMap="MemberMap">
+		select 
+    member_id,
+    name,
+    email,
+    pwd,
+    tel,
+    photo,
+    cdt
 		from lms_member
 		where member_id=#{no}
 	</select>
 
-	<insert id="insert" parameterType="com.eomcs.lms.domain.Member">
+	<insert id="insert" parameterType="Member">
 		insert into
 		lms_member(name,email,pwd,tel,photo,cdt)
 		values(#{name},#{email},#{password},#{tel},#{photo},#{registeredDate})
 	</insert>
 
-	<update id="update" parameterType="com.eomcs.lms.domain.Member">
+	<update id="update" parameterType="Member">
 		update lms_member set
 		name=#{name},
 		email=#{email},
@@ -53,13 +60,13 @@
 		where member_id =#{no}
 	</update>
 
-	<delete id="delete" parameterType="com.eomcs.lms.domain.Member">
+	<delete id="delete" parameterType="Member">
 		delete from lms_member where
 		member_id=#{value}
 	</delete>
 
-	<select id="findByEmailPassword" parameterType="com.eomcs.lms.domain.Member"
-	resultType="com.eomcs.lms.domain.Member">
+	<select id="findByEmailPassword" parameterType="Member"
+	resultType="Member">
 		select
 		member_id no,
 		name,
@@ -72,7 +79,7 @@
 	</select>
 
 	<select id="findByKeyword" parameterType="String"
-		resultType="com.eomcs.lms.domain.Member">
+		resultType="Member">
 		select
 		member_id as no,
 		name,
