@@ -37,12 +37,15 @@ public class PhotoBoardUpdateCommand implements Command {
       }
 
       // 사용자로부터 변경할 값을 입력 받는다.
+      PhotoBoard data = new PhotoBoard();
+      data.setNo(no);
+      
       out.println("제목을 입력하지 않으면 이전 제목을 유지합니다");
       String str = Input.getStringValue(in, out, String.format("제목(%s)? ", photoboard.getTitle()));
 
       if(str.length() > 0) {
-        photoboard.setTitle(str);
-        photoBoardDao.update(photoboard);
+        data.setTitle(str);
+        photoBoardDao.update(data);
       }
 
       out.println("사진 파일 : ");
@@ -57,6 +60,7 @@ public class PhotoBoardUpdateCommand implements Command {
 
       if(!response.equalsIgnoreCase("y")) {
         out.println("파일 변경을 취소합니다");
+        txManager.commit();
         return;
       }
       // 기존 사진 파일을 삭제한다.

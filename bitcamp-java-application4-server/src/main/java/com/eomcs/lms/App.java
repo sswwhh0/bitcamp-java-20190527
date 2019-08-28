@@ -1,5 +1,4 @@
-// client-v43_2 : Mybaits 도입하기 + 도메인 클래스 별명 적용 + SQL매퍼에 resultMap 적용
-//                + 트랜잭션 적용
+// client-v44_1 : mybatis의 daynamic sql 사용하기
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -73,13 +72,13 @@ public class App {
       // -> Mybatis 설정 파일을 읽을 때 사용할 입력스트림 도구를 준비한다.
       InputStream inputStream = Resources.getResourceAsStream(
           "com/eomcs/lms/conf/mybatis-config.xml");
+      
       sqlSessionFactory = new SqlSessionFactoryProxy(
           new SqlSessionFactoryBuilder().build(inputStream));
       
       // 트랜잭션 관리자를 준비한다.
       PlatformTransactionManager txManager = 
           new PlatformTransactionManager(sqlSessionFactory);
-
 
       // Command 객체가 사용할 데이터 처리 객체를 준비한다.
       BoardDao boardDao = new BoardDaoImpl(sqlSessionFactory);
