@@ -16,7 +16,7 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
 
   @Override
   public int insert(PhotoFile photoFile) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.insert("PhotoFileDao.insert", photoFile);
     }
   }
@@ -31,7 +31,7 @@ public class PhotoFileDaoImpl implements PhotoFileDao {
 
   @Override
   public int deleteAll(int boardNo) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.delete("PhotoFileDao.deleteAll", boardNo);
     }
   }

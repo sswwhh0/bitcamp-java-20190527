@@ -16,17 +16,10 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int insert(Board board) throws Exception {
-    SqlSession sqlSession = sqlSessionFactory.openSession();
-    
-    try {
+
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       int count = sqlSession.insert("BoardDao.insert", board);
-      sqlSession.commit();
       return count;
-    } catch(Exception e) {
-      sqlSession.rollback();
-      throw e;
-    } finally {
-      sqlSession.close();
     }
   }
 
@@ -41,38 +34,28 @@ public class BoardDaoImpl implements BoardDao {
   @Override
   public Board findBy(int no) throws Exception {
 
-    SqlSession sqlSession = sqlSessionFactory.openSession();
-    try {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
       Board board = sqlSession.selectOne("BoardDao.findBy", no);
 
       if (board != null) {
         sqlSession.update("BoardDao.increaseViewCount", no);
-        sqlSession.commit();
       }
       return board;
-      
-    } catch(Exception e) {
-      sqlSession.rollback();
-      throw e;
-
-    } finally {
-      sqlSession.close();
     }
-
   }
 
   @Override
   public int update(Board board) throws Exception {
     // openSession()을 호출할 때 다음과 같이
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.update("BoardDao.update", board);
     }
   }
 
   @Override
   public int delete(int no) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.delete("BoardDao.delete", no);
     }
   }
