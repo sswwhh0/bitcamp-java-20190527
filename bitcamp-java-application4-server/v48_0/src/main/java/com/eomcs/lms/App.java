@@ -106,6 +106,7 @@ public class App {
               }
             }
             throw new Exception("요청을 처리할 메서드가 없습니다");
+            
           } catch(Exception e) {
             out.println("해당 명령을 처리할 수 없습니다");
             e.printStackTrace();
