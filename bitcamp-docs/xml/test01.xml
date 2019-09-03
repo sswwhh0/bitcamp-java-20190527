@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<students>
+	<student>
+		<name>홍길동</name>
+		<age>20</age>
+		<tel>1111-1111</tel>
+	</student>
+
+	<student name="홍길동" age="20" tel="1111-1111" />
+</students>
