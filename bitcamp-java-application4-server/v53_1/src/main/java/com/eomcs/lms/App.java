@@ -1,4 +1,4 @@
-// v53_2 : log4j 2 적용하기
+// v53_1 : log4j 1.2.x 적용하기
 package com.eomcs.lms;
 
 import java.io.BufferedReader;
@@ -13,8 +13,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -191,7 +191,7 @@ public class App {
   }
 
   public static void main(String[] args) {
-    System.out.println("로거 레벨 : "+logger.getLevel());
+    System.out.println("로거 레벨 : "+logger.getEffectiveLevel());
 
     try {
       App app = new App();
