@@ -1,13 +1,14 @@
 package com.eomcs.lms.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.lms.dao.BoardDao;
 import com.eomcs.lms.domain.Board;
-import com.eomcs.util.ServletRequest;
-import com.eomcs.util.ServletResponse;
 
 @Component
 public class BoardCommand {
@@ -19,7 +20,7 @@ public class BoardCommand {
   }
 
   @RequestMapping("/board/form")
-  public void form(ServletRequest request, ServletResponse response) {
+  public void form(ServletRequest request, ServletResponse response) throws IOException {
     PrintWriter out = response.getWriter();
 
     out.println("<html><head><title>게시물 등록폼</title></head>");
@@ -33,7 +34,7 @@ public class BoardCommand {
   }
 
   @RequestMapping("/board/add")
-  public void add(ServletRequest request, ServletResponse response) {
+  public void add(ServletRequest request, ServletResponse response) throws IOException {
 
     PrintWriter out = response.getWriter();
     out.println("<html><head><title>게시물 등록</title>"
@@ -55,7 +56,7 @@ public class BoardCommand {
   }
 
   @RequestMapping("/board/delete")
-  public void delete(ServletRequest request, ServletResponse response) {
+  public void delete(ServletRequest request, ServletResponse response) throws IOException {
 
     PrintWriter out = response.getWriter();
     
@@ -77,7 +78,7 @@ public class BoardCommand {
   }
 
   @RequestMapping("/board/detail")
-  public void detail(ServletRequest request, ServletResponse response) {
+  public void detail(ServletRequest request, ServletResponse response) throws IOException {
 
     PrintWriter out = response.getWriter();
 
@@ -113,7 +114,7 @@ public class BoardCommand {
   }
 
   @RequestMapping("/board/list")
-  public void list(ServletRequest request, ServletResponse response) {
+  public void list(ServletRequest request, ServletResponse response) throws IOException {
     PrintWriter out = response.getWriter();
     //Board[] boards = new Board[boardList.size()];
     //boardList.toArray(boards);
@@ -145,7 +146,7 @@ public class BoardCommand {
   }
 
   @RequestMapping("/board/update")
-  public void update(ServletRequest request, ServletResponse response) {
+  public void update(ServletRequest request, ServletResponse response) throws IOException {
 
     PrintWriter out = response.getWriter();
     

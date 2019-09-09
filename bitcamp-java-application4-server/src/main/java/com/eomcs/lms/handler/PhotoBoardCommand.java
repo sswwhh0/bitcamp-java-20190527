@@ -1,7 +1,10 @@
 package com.eomcs.lms.handler;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +12,6 @@ import com.eomcs.lms.dao.PhotoBoardDao;
 import com.eomcs.lms.dao.PhotoFileDao;
 import com.eomcs.lms.domain.PhotoBoard;
 import com.eomcs.lms.domain.PhotoFile;
-import com.eomcs.util.ServletRequest;
-import com.eomcs.util.ServletResponse;
 
 @Component
 public class PhotoBoardCommand {
@@ -27,7 +28,7 @@ public class PhotoBoardCommand {
   }
 
   @RequestMapping("/photoboard/form")
-  public void form(ServletRequest request, ServletResponse response) {
+  public void form(ServletRequest request, ServletResponse response) throws IOException {
     PrintWriter out = response.getWriter();
 
     out.println("<html><head><title>게시물 등록폼</title></head>");
@@ -44,7 +45,7 @@ public class PhotoBoardCommand {
 
   @Transactional
   @RequestMapping("/photoboard/add")
-  public void add(ServletRequest request, ServletResponse response) {
+  public void add(ServletRequest request, ServletResponse response) throws IOException {
 
     PrintWriter out = response.getWriter();
     out.println("<html><head><title>게시물 등록</title>"
@@ -74,7 +75,7 @@ public class PhotoBoardCommand {
 
   @Transactional
   @RequestMapping("/photoboard/delete")
-  public void delete(ServletRequest request, ServletResponse response) {
+  public void delete(ServletRequest request, ServletResponse response) throws IOException {
 
     PrintWriter out = response.getWriter();
 
@@ -104,7 +105,7 @@ public class PhotoBoardCommand {
   }
 
   @RequestMapping("/photoboard/detail")
-  public void detail(ServletRequest request, ServletResponse response) {
+  public void detail(ServletRequest request, ServletResponse response) throws IOException {
 
     PrintWriter out = response.getWriter();
 
@@ -152,7 +153,7 @@ public class PhotoBoardCommand {
   }
 
   @RequestMapping("/photoboard/list")
-  public void list(ServletRequest request, ServletResponse response) {
+  public void list(ServletRequest request, ServletResponse response) throws IOException {
     PrintWriter out = response.getWriter();
     //Board[] boards = new Board[boardList.size()];
     //boardList.toArray(boards);
@@ -188,7 +189,7 @@ public class PhotoBoardCommand {
 
   @Transactional
   @RequestMapping("/photoboard/update")
-  public void update(ServletRequest request, ServletResponse response) {
+  public void update(ServletRequest request, ServletResponse response) throws IOException {
 
     PrintWriter out = response.getWriter();
 

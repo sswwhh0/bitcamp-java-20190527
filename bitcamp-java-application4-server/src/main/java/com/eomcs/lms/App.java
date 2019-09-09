@@ -1,30 +1,19 @@
-// v54_1 : Apache의 HttpClient를 이용하여 HTTP 서버 만들기
+// v55_1 : Servlet 컨테이너 도입하기
 package com.eomcs.lms;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
-import java.net.SocketTimeoutException;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import org.apache.http.ConnectionClosedException;
-import org.apache.http.HttpException;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.MethodNotSupportedException;
-import org.apache.http.config.SocketConfig;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.bootstrap.HttpServer;
-import org.apache.http.impl.bootstrap.ServerBootstrap;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.protocol.HttpRequestHandler;
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.aop.support.AopUtils;
@@ -34,21 +23,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.util.RequestMappingHandlerMapping;
 import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
-import com.eomcs.util.ServletRequest;
-import com.eomcs.util.ServletResponse;
 
-public class App implements HttpRequestHandler {
+@WebServlet("/*")
+public class App implements Servlet {
 
   private final static Logger logger = LogManager.getLogger(App.class);
 
   ApplicationContext appCtx;
   RequestMappingHandlerMapping handlerMapping;
   int state;
+  ServletConfig config;
 
-  // 스레드풀 적용하기
-  ExecutorService executorService = Executors.newCachedThreadPool();
+  @Override
+  public void init(ServletConfig config) throws ServletException {
 
-  public App() throws Exception {
+    this.config = config;
+
+    // 톰캣 서버가 이 객체를 사용하기 전에 이 객체가 작업에 필요한 자원들을 
+    // 준비할 수 있도록 이 메서드를 호출한다.
+
     appCtx = new AnnotationConfigApplicationContext(AppConfig.class);
 
     // SPring IoC 컨테이너에 들어 있는(Spring IoC 컨테이너가 생성한) 객체 알아내기
@@ -62,6 +55,68 @@ public class App implements HttpRequestHandler {
     logger.debug("-------------------");
 
     handlerMapping = createRequestMappingHandlerMapping();
+  }
+
+  @Override
+  public void service(ServletRequest req, ServletResponse res)
+      throws ServletException, IOException {
+    // 클라이언트가 요청한 정보를 자세하게 뽑기 위해 파라미터 객체를
+    // 원래의 타입으로 형변환 한다.
+
+    HttpServletRequest httpReq = (HttpServletRequest) req;
+    String command = httpReq.getPathInfo();
+    System.out.println(command);
+    logger.info(command);
+    logger.info(httpReq.getQueryString());
+
+    try {
+      RequestHandler requestHandler = 
+          handlerMapping.getRequestHandler(command);
+      
+      res.setContentType("text/html;charset=UTF-8");
+
+      if(requestHandler != null) {
+        //클라이언트 요청을 처리하기 위해 메서드를 호출한다
+        requestHandler.method.invoke(
+            requestHandler.bean, req, res);
+      } else {
+        PrintWriter out = res.getWriter();
+        out.println("<html><body><h1>"
+            + "해당 명령을 처리할 커맨드를 찾을 수 없습니다.</h1></body></html>");
+        logger.info("실패! - "+command);
+      }
+
+    } catch(Exception e) {
+      PrintWriter out = res.getWriter();
+      out.println("<html><body><h1>"
+          + "해당 명령을 찾을 수 없습니다.catch</h1></body></html>");
+
+      logger.info("클라이언트 요청 처리 중 오류 발생!");
+      StringWriter out2 = new StringWriter();
+      e.printStackTrace(new PrintWriter(out2));
+      logger.debug(out2.toString());
+    }
+  }
+
+  @Override
+  public void destroy() {
+    // 톰캣 서버가 종료되기 전에 서블릿들이 이 객체가 준비한 자원들을
+    // 해제할 수 있도록 이 메서드를 호출한다.
+  }
+
+  @Override
+  public String getServletInfo() {
+    // 톰캣 서버가 관리자 페이지에 애플리케이션에 대해
+    // 간단한 소개를 출력하기 위해 이 메서드를 호출한다.
+    // 즉, 이 메서드의 리턴 값을 관리자 페이지에 출력한다.
+    return "수업 관리 시스템";
+  }
+
+  @Override
+  public ServletConfig getServletConfig() {
+    // 이 객체를 실행하면서 이 객체의 실행 환경 정보를 알고 싶을 때
+    // 이 메서드를 호출한다. 리턴 값은 init()메서드에서 파라미터 값을 잘 보관해야 한다.
+    return this.config;
   }
 
   private RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
@@ -107,130 +162,6 @@ public class App implements HttpRequestHandler {
     });
 
     return mapping;
-  }
-
-  @SuppressWarnings("static-access")
-  private void service() throws Exception {
-
-    SocketConfig socketConfig = SocketConfig.custom()
-        .setSoTimeout(15000)
-        .setTcpNoDelay(true)
-        .build();
-
-    final HttpServer server = ServerBootstrap.bootstrap()
-        .setListenerPort(4444)
-        .setServerInfo("Bitcamp/1.1")
-        .setSocketConfig(socketConfig)
-        .setSslContext(null)
-        .setExceptionLogger(ex -> {
-          if (ex instanceof SocketTimeoutException) {
-            System.err.println("Connection timed out");
-          } else if (ex instanceof ConnectionClosedException) {
-            System.err.println(ex.getMessage());
-          } else {
-            ex.printStackTrace();
-          }
-        })
-        .registerHandler("*", this)
-        .create();
-
-    server.start();
-    logger.info("서버 실행");
-    server.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
-
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-        server.shutdown(5, TimeUnit.SECONDS);
-      }
-    });
-
-  }
-
-  @Override
-  public void handle(HttpRequest request, HttpResponse response, HttpContext context)
-      throws HttpException, IOException {
-
-    // 클라이언트가 요청한 방식을 알아낸다.
-    String method = request.getRequestLine().getMethod().toUpperCase(Locale.ROOT);
-    if (!method.equals("GET")) { // GET 요청이 아니라면 오류 내용을 응답한다.
-      throw new MethodNotSupportedException(method + " method not supported");
-    }
-
-    // 커맨드 객체에 있는 request handler를 호출할 때 넘겨 줄 파라미터 객체 준비
-    ServletRequest servletRequest = new ServletRequest();
-    ServletResponse servletResponse = new ServletResponse();
-
-    // 클라이언트가 요청한 명령 알아내기
-    // /member/add
-    // ?name=aaa&email=aaa@test.com&password=111&tel=1111-1111
-
-    String uriStr = request.getRequestLine().getUri();
-    String[] values = uriStr.split("\\?");
-
-    String command = values[0];
-    logger.info(command);
-
-    if(values.length > 1) {
-      String queryString = values[1];
-      logger.info(queryString);
-    }
-
-    try {
-      RequestHandler requestHandler = 
-          handlerMapping.getRequestHandler(command);
-
-      if(requestHandler != null) {
-        //클라이언트 요청을 처리하기 위해 메서드를 호출한다
-        servletRequest.setUri(uriStr); // URL에 포함된 파라미터 값을 추출하여 보관한다.
-
-        requestHandler.method.invoke(
-            requestHandler.bean, servletRequest, servletResponse);
-
-        // 클라이언트에게 응답
-        response.setStatusCode(HttpStatus.SC_OK);
-        StringEntity entity = new StringEntity(
-            servletResponse.getResponseEntity(), 
-            ContentType.create("text/html", "UTF-8"));
-        response.setEntity(entity);
-        logger.info("성공!");
-      } else {
-        response.setStatusCode(HttpStatus.SC_NOT_FOUND);
-        StringEntity entity = new StringEntity(
-            "<html><body><h1>해당 명령을 찾을 수 없습니다.else</h1></body></html>",
-            ContentType.create("text/html", "UTF-8"));
-        response.setEntity(entity);
-        logger.info("실패!");
-      }
-
-    } catch(Exception e) {
-      logger.info("클라이언트 요청 처리 중 오류 발생!");
-
-      StringWriter out2 = new StringWriter();
-      e.printStackTrace(new PrintWriter(out2));
-      logger.debug(out2.toString());
-
-      response.setStatusCode(HttpStatus.SC_OK);
-      StringEntity entity = new StringEntity(
-          "<html><body><h1>해당 명령을 찾을 수 없습니다.catch</h1></body></html>",
-          ContentType.create("text/html", "UTF-8"));
-      response.setEntity(entity);
-    }
-
-  }
-
-  public static void main(String[] args) {
-    System.out.println("로거 레벨 : "+logger.getLevel());
-
-    try {
-      App app = new App();
-      app.service();
-    } catch(Exception e) {
-      logger.info("시스템 실행 중 오류 발생!");
-      StringWriter out3 = new StringWriter();
-      e.printStackTrace(new PrintWriter(out3));
-      logger.debug(out3.toString());
-    }
   }
 
 }
