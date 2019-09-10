@@ -57,8 +57,10 @@ public class LoginCommand {
       
       if(member == null) {
         out.println("<p>이메일 또는 암호가 맞지 않습니다!</p>");
+        out.println("<meta http-equiv='Refresh' content='1;url=/auth/form'>");
       } else {
         out.printf("<p>%s님 환영합니다.\n</p>", member.getName());
+        out.println("<meta http-equiv='Refresh' content='1;url=/member/list'>");
       }
     } catch (Exception e) {
       out.println("<p>로그인 실행에 실패했습니다!</p>");

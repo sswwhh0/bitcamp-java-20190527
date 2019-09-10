@@ -2,6 +2,7 @@ package com.eomcs.lms.handler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.List;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -50,6 +51,7 @@ public class MemberCommand {
       member.setPassword(request.getParameter("password"));
       member.setPhoto(request.getParameter("photo"));
       member.setTel(request.getParameter("tel"));
+      member.setRegisteredDate(new Date(System.currentTimeMillis()));
       
       memberDao.insert(member);
       out.println("<p>저장하였습니다.</p>");
@@ -150,7 +152,7 @@ public class MemberCommand {
             + "<td><a href='/member/detail?no=%d'>%s</a></td>"
             + "<td>%s</td>"
             + "<td>%s</td>"
-            + "<td>%s</td></tr>\n", 
+            + "<td>%s</td></tr>\n",
             member.getNo(),
             member.getNo(),
             member.getName(), 
