@@ -29,11 +29,12 @@ public class Servlet06 extends GenericServlet {
     
     // 같은 이름으로 여러 개의 데이터를 보낼 수 있다.
     // => 예) name=aaa&name=bbb&name=ccc
-    
     String[] names = req.getParameterValues("name");
     
     res.setContentType("text/plain;charset=UTF-8");
     PrintWriter out = res.getWriter();
+    System.out.println(req.getParameter("name"));
+    System.out.println("----------------");
     
     for (String name : names) {
       out.printf("이름=%s\n", name);
