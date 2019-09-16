@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.util.RequestMappingHandlerMapping;
 import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
 
-@WebServlet("/*")
+@WebServlet("/*") 
 public class App implements Servlet {
 
   private final static Logger logger = LogManager.getLogger(App.class);
