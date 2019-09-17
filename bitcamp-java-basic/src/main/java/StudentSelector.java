@@ -1,33 +1,44 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class StudentSelector {
 
   public static void main(String[] args) throws Exception {
+    /*
+    String[] names = {
+        "소한샘", "이용재", "이원주",
+        "김유림", "임성빈", "김유빈"
+    };
+    */
     
     String[] names = {
-        "김기원", "김민철", "김시진", "김의주", "김지성", "김혜인",
-        "김화선", "류재현", "박상민", "박상현", "박재중", "손병준",
-        "송광호", "오승빈", "우승완", "이대구", "이솔뫼", "임현우",
-        "전민희", "전상오", "전진욱", "지희욱", "최미영", "최익현",
-        "최지환", "한성우"
+        "신우혁", "김지수", "권다진", 
+        "김광용", "조희정", "현수룡", "심수현",
+        "오상헌", "신지하", "이유정", "최태훈", "김영준"
     };
+    
     
     ArrayList<String> list = new ArrayList<>();
     for (String name : names) {
       list.add(name);
     }
     
-    int no = -1;
-    for (int i = 0; i < 10; i++) {
-      no = (int)(Math.random() * names.length);
-      System.out.print(".");
-      Thread.currentThread().sleep(200);
-    }
-    System.out.println();
+    Scanner keyboard = new Scanner(System.in);
     
-    Thread.currentThread().sleep(5000);
-    System.out.println(names[no]);
-
+    while (list.size() > 0) {
+      int no = -1;
+      for (int i = 0; i < 30; i++) {
+        no = (int)(Math.random() * list.size());
+        System.out.print(".");
+        Thread.currentThread().sleep(200);
+      }
+      
+      Thread.currentThread().sleep(1000);
+      System.out.println(list.remove(no));
+      keyboard.nextLine();
+    }
+    
+    keyboard.close();
   }
 
 }

@@ -46,6 +46,10 @@ public class Servlet01 implements Servlet {
   
   ServletConfig config;
   
+  public Servlet01() {
+    System.out.println("Servlet01()");
+  }
+  
   @Override
   public void init(ServletConfig config) throws ServletException {
     // 서블릿 객체를 생성한 후 생성자 다음에 이 메서드가 호출된다.

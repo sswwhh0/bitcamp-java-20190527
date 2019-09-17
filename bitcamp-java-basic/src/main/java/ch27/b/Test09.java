@@ -9,7 +9,7 @@ public class Test09 {
     
     Class<?> superClass = clazz.getSuperclass();
     System.out.println(superClass.getName());
-    System.out.println("----------------");
+    System.out.println("----------------------------");
     
     printSuperClassName(clazz, 0);
   }
@@ -18,17 +18,16 @@ public class Test09 {
     printIndent(level);
     
     System.out.println(clazz.getName());
-    if(clazz == Object.class)
+    if (clazz == Object.class)
       return;
     
-    printSuperClassName(clazz.getSuperclass(), level+1);
-  }
-  
-  static void printIndent(int level) {
-    for(int i=0; i<level; i++)
-      System.out.print(" ");
+    printSuperClassName(clazz.getSuperclass(), level + 1);
   }
 
+  static void printIndent(int level) {
+    for (int i = 0; i < level; i++)
+      System.out.print("  ");
+  }
 }
 
 

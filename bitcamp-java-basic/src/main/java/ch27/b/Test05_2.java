@@ -24,6 +24,8 @@ public class Test05_2 {
       Parameter[] params = m.getParameters();
       System.out.printf("파라미터: %d\n", m.getParameterCount());
       for (Parameter p : params) {
+        //Class<?> parameterTypeInfo = p.getType();
+        //String parameterTypeName = parameterTypeInfo.getName();
         System.out.printf("    %s:%s\n", 
             p.getName(), // 파라미터명
             p.getType().getName() // 파라미터 타입명
@@ -32,6 +34,7 @@ public class Test05_2 {
       
       System.out.println("리턴 타입:");
       System.out.printf("    %s\n", m.getReturnType().getName());
+      
       
       System.out.println("modifier:");
       int modifiers = m.getModifiers();
@@ -42,11 +45,14 @@ public class Test05_2 {
       else if ((modifiers & PRIVATE) != 0)
         System.out.println("    private");
       
-      if ((modifiers & STATIC) != 0)
+      
+      //if ((modifiers & STATIC) != 0)
+      if (Modifier.isStatic(modifiers))
         System.out.println("    static");
       
       if ((modifiers & FINAL) != 0)
         System.out.println("    final");
+
       System.out.println("-------------------------------------");
     }
     

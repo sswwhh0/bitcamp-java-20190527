@@ -1,4 +1,4 @@
-package com.eomcs.lms;
+package com.eomcs.lms.config;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.logging.LogFactory;
@@ -11,23 +11,21 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan("com.eomcs.lms.dao")
-
 public class MybatisConfig {
-
-  // Mybatis의 SqlSessionFactory 객체 준비
+  
   @Bean
   public SqlSessionFactory sqlSessionFactory(
       DataSource dataSource, ApplicationContext appCtx) throws Exception {
-    
+
+    // Mybatis의 Log4j2를 활성화시키기 
     LogFactory.useLog4J2Logging();
     
     SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-    
     sqlSessionFactoryBean.setDataSource(dataSource);
     sqlSessionFactoryBean.setTypeAliasesPackage("com.eomcs.lms.domain");
     sqlSessionFactoryBean.setMapperLocations(
         appCtx.getResources("classpath:com/eomcs/lms/mapper/*Mapper.xml"));
-
+    
     return sqlSessionFactoryBean.getObject();
   }
 }
