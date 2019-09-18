@@ -1,4 +1,4 @@
-package com.eomcs.lms.servlet.MemberServlet;
+package com.eomcs.lms.servlet.LessonServlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.ApplicationContext;
-import com.eomcs.lms.dao.MemberDao;
-import com.eomcs.lms.domain.Member;
+import com.eomcs.lms.dao.LessonDao;
+import com.eomcs.lms.domain.Lesson;
 
-@WebServlet("/member/detail")
-public class MemberDetailServlet extends HttpServlet {
+@WebServlet("/lesson/detail")
+public class LessonDetailServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private MemberDao memberDao;
+  private LessonDao lessonDao;
 
   @Override
   public void init() throws ServletException {
     ApplicationContext appCtx = 
         (ApplicationContext) getServletContext().getAttribute("iocContainer");
-    memberDao = appCtx.getBean(MemberDao.class);
+    lessonDao = appCtx.getBean(LessonDao.class);
   }
 
   @Override
@@ -29,7 +29,7 @@ public class MemberDetailServlet extends HttpServlet {
       throws IOException, ServletException {
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
-    out.println("<html><head><title>회원 상세</title>"
+    out.println("<html><head><title>수업 상세</title>"
         + "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>"
         + "<link rel='stylesheet' href='/css/common.css'></head>");
     out.println("<body>");
@@ -37,35 +37,33 @@ public class MemberDetailServlet extends HttpServlet {
     request.getRequestDispatcher("/header").include(request, response);
 
     out.println("<div id='content'>");
-    out.println("<body><h1>회원 상세</h1>");
+    out.println("<body><h1>수업 상세</h1>");
 
     try {
       int no = Integer.parseInt(request.getParameter("no"));
 
-      Member member = memberDao.findBy(no);
-      if (member == null) {
+      Lesson lesson = lessonDao.findBy(no);
+      if (lesson == null) {
         out.println("<p>해당 번호의 데이터가 없습니다!</p>");
 
       } else {
-        out.println("<form action='/member/update' method='post' "
-            + "enctype='multipart/form-data'>");
-        out.printf("<img src='/upload/member/%s' class='photo1'><br>\n",member.getPhoto());
-        out.println("<input type='file' name='photo'><br>");
-        
+        out.println("<form action='/lesson/update' method='post'>");
         out.printf("번호: <input type='text' name='no' value='%d' readonly><br>\n",
-            member.getNo());
-        out.printf("이름: <input type='text' name='name' value='%s'><br>\n",
-            member.getName());
-        out.printf("이메일: <input type='text' name='email' value='%s'><br>\n",
-            member.getEmail());
-        out.printf("암호: <input type='text' name='password' value='%s'><br>\n",
-            member.getPassword());
-        out.printf("전화: <input type='text' name='tel' value='%s'><br>\n",
-            member.getTel());
-        out.printf("가입일: %s<br>\n",
-            member.getRegisteredDate());
+            lesson.getNo());
+        out.printf("수업명: <input type='text' name='title' value='%s'><br>\n",
+            lesson.getTitle());
+        out.printf("설명: <textarea name='contents' rows='5' cols='50'>%s</textarea><br>\n",
+            lesson.getContents());
+        out.printf("시작일: <input type='text' name='startDate' value='%s'><br>\n",
+            lesson.getStartDate());
+        out.printf("종료일: <input type='text' name='endDate' value='%s'><br>\n",
+            lesson.getEndDate());
+        out.printf("총 수업시간: <input type='text' name='totalHours' value='%d'><br>\n",
+            lesson.getTotalHours());
+        out.printf("일 수업시간: <input type='text' name='dayHours' value='%d'><br>\n",
+            lesson.getDayHours());
         out.println("<button>변경</button>");
-        out.printf("<a href='/member/delete?no=%d'>삭제</a>\n", member.getNo());
+        out.printf("<a href='/lesson/delete?no=%d'>삭제</a>\n", lesson.getNo());
         out.println("</form>");
       } 
     } catch (Exception e) {
@@ -79,3 +77,15 @@ public class MemberDetailServlet extends HttpServlet {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+

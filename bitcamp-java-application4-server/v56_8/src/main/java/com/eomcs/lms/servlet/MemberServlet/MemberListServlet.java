@@ -2,6 +2,7 @@ package com.eomcs.lms.servlet.MemberServlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,8 +12,8 @@ import org.springframework.context.ApplicationContext;
 import com.eomcs.lms.dao.MemberDao;
 import com.eomcs.lms.domain.Member;
 
-@WebServlet("/member/detail")
-public class MemberDetailServlet extends HttpServlet {
+@WebServlet("/member/list")
+public class MemberListServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private MemberDao memberDao;
@@ -29,47 +30,44 @@ public class MemberDetailServlet extends HttpServlet {
       throws IOException, ServletException {
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
-    out.println("<html><head><title>회원 상세</title>"
+    out.println("<html><head><title>회원 목록</title>"
         + "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>"
-        + "<link rel='stylesheet' href='/css/common.css'></head>");
+        + "<link rel='stylesheet' href='/css/common.css'>"
+        + "</head>");
     out.println("<body>");
 
     request.getRequestDispatcher("/header").include(request, response);
 
     out.println("<div id='content'>");
-    out.println("<body><h1>회원 상세</h1>");
+    out.println("<body><h1>회원 목록</h1>");
+    out.println("<a href='/member/add'>새 회원</a><br>");
 
     try {
-      int no = Integer.parseInt(request.getParameter("no"));
-
-      Member member = memberDao.findBy(no);
-      if (member == null) {
-        out.println("<p>해당 번호의 데이터가 없습니다!</p>");
-
-      } else {
-        out.println("<form action='/member/update' method='post' "
-            + "enctype='multipart/form-data'>");
-        out.printf("<img src='/upload/member/%s' class='photo1'><br>\n",member.getPhoto());
-        out.println("<input type='file' name='photo'><br>");
-        
-        out.printf("번호: <input type='text' name='no' value='%d' readonly><br>\n",
-            member.getNo());
-        out.printf("이름: <input type='text' name='name' value='%s'><br>\n",
-            member.getName());
-        out.printf("이메일: <input type='text' name='email' value='%s'><br>\n",
-            member.getEmail());
-        out.printf("암호: <input type='text' name='password' value='%s'><br>\n",
-            member.getPassword());
-        out.printf("전화: <input type='text' name='tel' value='%s'><br>\n",
-            member.getTel());
-        out.printf("가입일: %s<br>\n",
+      out.println("<table class='table table-hover'>");
+      out.println("<tr><th>번호</th><th>이름</th><th>이메일</th><th>전화</th><th>등록일</th></tr>");
+      List<Member> members = memberDao.findAll();
+      for (Member member : members) {
+        out.printf("<tr>"
+            + "<td>%d</td>"
+            + "<td><a href='/member/detail?no=%d'>%s</a></td>"
+            + "<td>%s</td>"
+            + "<td>%s</td>"
+            + "<td>%s</td></tr>\n", 
+            member.getNo(),
+            member.getNo(),
+            member.getName(), 
+            member.getEmail(), 
+            member.getTel(),
             member.getRegisteredDate());
-        out.println("<button>변경</button>");
-        out.printf("<a href='/member/delete?no=%d'>삭제</a>\n", member.getNo());
-        out.println("</form>");
-      } 
+      }
+      out.println("</table>");
+      out.println("<form action='/member/search'>");
+      out.println("검색어: <input type='text' name='keyword'>");
+      out.println("<button>검색</button>");
+      out.println("</form>");
+
     } catch (Exception e) {
-      out.println("<p>데이터 조회에 실패했습니다!</p>");
+      out.println("<p>데이터 목록 조회에 실패했습니다!</p>");
       throw new RuntimeException(e);
 
     } finally {

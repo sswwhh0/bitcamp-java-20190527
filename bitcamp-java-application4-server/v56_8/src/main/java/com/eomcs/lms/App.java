@@ -8,7 +8,6 @@ public class App {
   // -> MemberAddServlet 변경
   // -> MemberDetailServlet 변경
   // -> MemberUpdateServlet 변경
-  // -> photoboard도 할거임
   public static void main(String[] args) {
   }
 }
