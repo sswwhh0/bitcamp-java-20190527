@@ -26,11 +26,11 @@ public class HeaderServlet extends HttpServlet {
     HttpSession session = request.getSession();
     Member loginUser = (Member) session.getAttribute("loginUser");
     
+    out.println("<a href='/auth/logout'>로그아웃</a>");
 
     if(loginUser == null) {
       out.println("<a href='/auth/login'>로그인</a>");
     } else {
-      out.println("<a href='/auth/logout'>로그아웃</a>");
       out.printf("<a href='/member/detail?no=%d'>%s</a>", 
           loginUser.getNo(), loginUser.getName());
     }
