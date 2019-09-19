@@ -1,38 +1,23 @@
 @charset "UTF-8";
 
 #header {
-	background-color: #ff0000;
-	color: #ffffff;
-	height: 60px;
-	width: 1100px;
-	padding-top: 5px;
-	margin: auto auto;
+  width: 1100px;
+  margin: 0 auto;
 }
 
 #header img {
-	height: 35px;
-	position: relative;
-	top: -10px;
-}
-
-#header span {
-	font-size: 200%;
-}
-
-#header a {
-	float: right;
-	margin-left: 10px;
+  height: 35px;
 }
 
 #footer {
-	background-color: #ff0000;
-	color: #ffffff;
-	height: 40px;
-	width: 1100px;
-	text-align: center;
-	vertical-align: middle;
-	padding-top: 10px;
-	margin: auto auto;
+  background-color: #524845;
+  color: #ffffff;
+  height: 40px;
+  width: 1100px;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 10px;
+  margin: auto auto;
 }
 
 #content {
@@ -41,8 +26,18 @@
   margin: auto auto;
 }
 
-.photo1{
-	height: 120px;
+.photo1 {
+  height: 120px;
 }
+
+.photo2 {
+  height: 100px;
+  margin: 2px;
+}
+
+
+
+
+
 
 
