@@ -1,8 +1,10 @@
-// v57_2 : JSP에 EL을 적용하기
+// v57_1 : JSP를 활용하여 서블릿에서 출력 기능 분리하기
 package com.eomcs.lms;
 
-// 작업:
-// => /webapp/jsp/**/*.jsp 변경
+// 작업
+// -> /webapp/jsp/board 폴더 생성
+// -> BoardXxxServlet에서 출력 기능을 JSP로 이전
+// -> webapp/jsp/board/*.jsp 생성
 //
 // dummy 클래스!
 // => 기존 버전에서 계속 존재했던 클래스라서 그대로 둠.

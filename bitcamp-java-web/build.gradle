@@ -36,4 +36,8 @@ dependencies {
     
     // servlet API
     providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+
+    // jstl
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+
 }
