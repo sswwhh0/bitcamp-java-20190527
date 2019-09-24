@@ -1,32 +1,21 @@
 package com.eomcs.util;
 
-import static org.reflections.ReflectionUtils.getMethods;
-import static org.reflections.ReflectionUtils.withAnnotation;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import static org.reflections.ReflectionUtils.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.eomcs.lms.servlet.DispatcherServlet;
 
 // 역할:
 // => @RequestMapping 애노테이션이 붙은 메서드의 정보를 보관한다.
 // => 나중에 메서드를 호출하려면 인스턴스 주소도 알아야 하기 때문에
 //    메서드 정보를 보관할 때 인스턴스도 함께 보관해야 한다.
 public class RequestMappingHandlerMapping {
-  
-  private static final Logger log = 
-      LogManager.getLogger(DispatcherServlet.class);
-  
   // HashMap<명령어, (메서드 + 인스턴스)>
   HashMap<String,RequestHandler> handlerMap = new HashMap<>();
 
@@ -68,40 +57,7 @@ public class RequestMappingHandlerMapping {
 
     public Object invoke(HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
-
-      // 메서드의 파라미터 목록을 꺼낸다.
-      Parameter[] params = method.getParameters();
-
-      // 파라미터 값을 담을 배열을 준비한다.
-      Object[] args = new Object[params.length];
-
-      // 각 파라미터에 대한 값을 준비한다.
-      log.debug(String.format("%s.%s(", 
-          bean.getClass().getName(), 
-          method.getName()));
-      for(int i=0; i<params.length; i++) {
-        args[i] = getArgument(params[i], request, response);
-        
-        // 파라미터 이름
-        log.debug(String.format(" %s,", params[i].getName()));
-      }
-      log.debug(")");
-      
-      return method.invoke(bean, args);
-    }
-
-    private Object getArgument(Parameter param, 
-        HttpServletRequest request, HttpServletResponse response) {
-      Class<?> paramType = param.getType();
-      if(paramType == ServletRequest.class || 
-          paramType == HttpServletRequest.class) {
-        return request;
-      } else if(paramType == ServletResponse.class || 
-          paramType == HttpServletResponse.class) {
-        return response;
-      } else {
-        return null;
-      }
+      return method.invoke(bean, request, response);
     }
 
   }

@@ -1,6 +1,12 @@
 package com.eomcs.lms.servlet;
 
+import static org.reflections.ReflectionUtils.getMethods;
+import static org.reflections.ReflectionUtils.withAnnotation;
+import static org.reflections.ReflectionUtils.withModifier;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
-import com.eomcs.util.RequestMappingHandlerMapping;
-import com.eomcs.util.RequestMappingHandlerMapping.RequestHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @MultipartConfig(maxFileSize = 1024 * 1024 * 10)
 @WebServlet("/app/*")
@@ -22,13 +27,11 @@ public class DispatcherServlet extends HttpServlet {
       LogManager.getLogger(DispatcherServlet.class);
 
   private ApplicationContext iocContainer;
-  private RequestMappingHandlerMapping handlerMapping;
 
   @Override
   public void init() throws ServletException {
     iocContainer = 
         (ApplicationContext) getServletContext().getAttribute("iocContainer");
-    handlerMapping = new RequestMappingHandlerMapping(iocContainer);
   }
 
   @Override
@@ -40,20 +43,23 @@ public class DispatcherServlet extends HttpServlet {
         servletPath, pathInfo));
 
     try {
-      //클라이언트 요청을 처리할 request handler를 찾는다.
-      RequestHandler requestHandler = handlerMapping.getRequestHandler(pathInfo);
-
+      // 클라이언트 요청을 처리할 페이지 컨트롤로를 찾는다.
+      Object pageController = iocContainer.getBean(pathInfo);
+      
+      // 페이지 컨트롤러에서 @RequestMapping이 붙은 메서드를 찾는다.
+      Method requestHandler = findRequestHandler(pageController);
+      
       if(requestHandler == null) {
         throw new Exception(pathInfo + " 요청을 처리할 수 없습니다.");
       }
-
+      
       // request handler를 실행한다.
-      String viewUrl = (String) requestHandler.method.invoke(
-          requestHandler.bean, request, response);
+      String viewUrl = (String) requestHandler.invoke(
+          pageController, request, response);
 
       // 응답 콘텐트의 MIME 타입과 문자집합을 설정한다.
       String contentType = (String) request.getAttribute("contentType");
-
+      
       if(contentType != null) {
         response.setContentType(contentType);
       } else {
@@ -75,5 +81,17 @@ public class DispatcherServlet extends HttpServlet {
     }
 
   }
+  @SuppressWarnings("unchecked")
+  private Method findRequestHandler(Object obj) {
+    Set<Method> methods = getMethods(
+        obj.getClass(), 
+        withAnnotation(RequestMapping.class), 
+        withModifier(Modifier.PUBLIC));
 
+    for(Method method : methods) {
+      return method;
+    }
+    return null;
+
+  }
 }
