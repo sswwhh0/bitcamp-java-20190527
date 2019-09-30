@@ -27,8 +27,8 @@ dependencies {
     // MariaDB JDBC Driver
     compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.3'
     
-    // Spring IoC 컨테이너
-    compile group: 'org.springframework', name: 'spring-context', version: '5.1.9.RELEASE'
+    // Spring IoC 컨테이너 - spring-webmvc 를 추가하면 이 라이브러리는 자동으로 포함된다.
+    //compile group: 'org.springframework', name: 'spring-context', version: '5.1.9.RELEASE'
     
     // Spring JDBC
     compile group: 'org.springframework', name: 'spring-jdbc', version: '5.1.9.RELEASE'
@@ -48,7 +48,7 @@ dependencies {
     // Servlet API
     providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
     
-    // jstl
+    // JSTL
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
     
     // Javax Annotation API(for OpenJDK, Oracle JDK includes this library)
@@ -56,6 +56,12 @@ dependencies {
     
     // Reflections
     compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+    
+    // JSON 데이터 처리
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.10'
+    
+    // 파일 업로드 처리
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
     
     implementation 'com.google.guava:guava:27.1-jre'
     testImplementation 'junit:junit:4.12'
